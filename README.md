@@ -6,3 +6,4 @@ This is team Doshi and we are on a mission to create an exemplary project under 
 Team -
 - Akshat Jain
 - Ansh Agrawal
+- Satya Partha Varun Ramaraju
