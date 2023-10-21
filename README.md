@@ -9,5 +9,5 @@ Team
 - Vatsal Malaviya
 - Akshat Jain
 - Ansh Agrawal
-- Satya Partha Varun Ramaraju
 - Rishabh Alkeshkumar Doshi
+- Satya Partha Varun Ramaraju
