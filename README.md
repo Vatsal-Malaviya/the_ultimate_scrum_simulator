@@ -7,3 +7,4 @@ Team -
 - Akshat Jain
 - Ansh Agrawal
 - Satya Partha Varun Ramaraju
+- Rishabh Alkeshkumar Doshi
