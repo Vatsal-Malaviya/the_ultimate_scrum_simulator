@@ -4,7 +4,6 @@ import in.ser.the_ultimate_scrum_simulator.Pages.HomePage;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyFrame;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
 
-
 import javax.swing.*;
 import java.awt.*;
 
