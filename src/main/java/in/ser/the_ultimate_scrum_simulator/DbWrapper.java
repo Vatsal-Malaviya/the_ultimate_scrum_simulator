@@ -7,7 +7,9 @@ import in.ser.the_ultimate_scrum_simulator.model.UserAuthResult;
 import in.ser.the_ultimate_scrum_simulator.model.UserCreateStatus;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 
+import java.nio.file.Path;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,8 +20,25 @@ public class DbWrapper {
     static Argon2PasswordEncoder argon2 = new Argon2PasswordEncoder(16, 128, 1, 20000, 3);
     public Connection conn;
 
-    public DbWrapper(Connection conn) {
-        this.conn = conn;
+    public DbWrapper() {
+        this.conn = createConnection();
+    }
+
+    private Connection createConnection(){
+
+        try {
+            Class.forName(
+                    "org.sqlite.JDBC"); // Driver name
+
+            Connection con = DriverManager.getConnection(
+                    "jdbc:sqlite:"+ Path.of("Reduction.db").toAbsolutePath());
+            System.out.println("Path : "+Path.of("Reduction.db").toAbsolutePath());
+
+            return con;
+        } catch (Exception e) {
+            System.out.println("Failed to create connection : "+e);
+            return null;
+        }
     }
 
     public UserAuthResult loginWith(String username, String password) {
