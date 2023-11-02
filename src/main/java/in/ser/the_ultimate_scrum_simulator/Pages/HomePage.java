@@ -20,6 +20,7 @@ public class HomePage extends MyPanel {
         addTitleToContainer(this);
         addButtonToContainer(this, "LOGIN");
         addButtonToContainer(this, "REGISTER");
+        addButtonToContainer(this, "EXIT",e -> System.exit(0));
     }
 
     private void addTitleToContainer(JPanel container) {
