@@ -73,7 +73,7 @@ public class LoginPage {
     }
 
     private static boolean authenticateUser(String username, String password) {
-        
+
 
         DbWrapper db = new DbWrapper();
 

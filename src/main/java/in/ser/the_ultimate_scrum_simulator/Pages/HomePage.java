@@ -5,6 +5,7 @@ import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class HomePage extends MyPanel {
@@ -18,8 +19,24 @@ public class HomePage extends MyPanel {
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
         addTitleToContainer(this);
-        addButtonToContainer(this, "LOGIN");
-        addButtonToContainer(this, "REGISTER");
+        addButtonToContainer(this, "LOGIN", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentFrame.getContentPane().removeAll();
+                parentFrame.add(LoginPage.createLoginPage(parentFrame), BorderLayout.CENTER);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+            }
+        });
+        addButtonToContainer(this, "REGISTER", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentFrame.getContentPane().removeAll();
+                parentFrame.add(LoginPage.createLoginPage(parentFrame), BorderLayout.CENTER);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+            }
+        });
     }
 
     private void addTitleToContainer(JPanel container) {
