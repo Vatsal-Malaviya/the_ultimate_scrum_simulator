@@ -1,53 +1,62 @@
 package in.ser.the_ultimate_scrum_simulator.Pages;
 
-
 import in.ser.the_ultimate_scrum_simulator.DbWrapper;
+import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
+import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
 import in.ser.the_ultimate_scrum_simulator.model.AuthStatus;
 import in.ser.the_ultimate_scrum_simulator.model.UserAuthResult;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-public class LoginPage {
 
+public class LoginPage extends MyPanel {
+
+    private JFrame parentFrame;
     private static Connection c = null;
     private static PreparedStatement ps = null;
     private static final int MAX_LOGIN_ATTEMPTS = 3;
     private static int consecutiveLoginAttempts = 0;
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Login Page");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setResizable(true);
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            frame.add(createLoginPage(frame), BorderLayout.CENTER);
-            frame.setVisible(true);
-        });
-    }
+    public LoginPage(JFrame frame) {
+        this.parentFrame = frame;
 
-    public static JPanel createLoginPage(JFrame frame) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
-        JLabel title = new JLabel("Login Validator");
-        title.setForeground(Color.BLACK);
-        title.setFont(new Font("Space Mono", Font.PLAIN, 50));
-        title.setAlignmentX(Component.LEFT_ALIGNMENT);
+        addTitleToContainer(this);
+
+        JPanel credentialsPanel = new JPanel();
+        credentialsPanel.setLayout(new BoxLayout(credentialsPanel, BoxLayout.Y_AXIS));
 
         JTextField usernameField = new JTextField(20);
         usernameField.setMaximumSize(usernameField.getPreferredSize());
         JPasswordField passwordField = new JPasswordField(20);
         passwordField.setMaximumSize(passwordField.getPreferredSize());
 
-        JButton loginButton = new JButton("Login");
-        loginButton.addActionListener((ActionEvent e) -> {
+        JPanel usernamePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        usernamePanel.setOpaque(false); // Making it transparent
+        usernamePanel.add(new JLabel("Username:"));
+        usernamePanel.add(usernameField);
+
+        JPanel passwordPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        passwordPanel.setOpaque(false); // Making it transparent
+        passwordPanel.add(new JLabel("Password:"));
+        passwordPanel.add(passwordField);
+
+        credentialsPanel.add(usernamePanel);
+        credentialsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        credentialsPanel.add(passwordPanel);
+
+        Color borderColor = Color.BLACK; // Change to desired color
+        credentialsPanel.setBorder(new LineBorder(borderColor, 3));
+
+
+        addRoundedButtonToContainer(credentialsPanel, "login",e->{
             if (authenticateUser(usernameField.getText(), new String(passwordField.getPassword()))) {
                 JOptionPane.showMessageDialog(frame, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 consecutiveLoginAttempts = 0;
@@ -65,21 +74,33 @@ public class LoginPage {
                     JOptionPane.showMessageDialog(frame, "Invalid credentials. Attempts: " + consecutiveLoginAttempts, "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        });
+        },FlowLayout.CENTER, 20);
 
-        panel.add(title);
-        panel.add(Box.createRigidArea(new Dimension(0, 30)));
-        panel.add(new JLabel("Username:"));
-        panel.add(usernameField);
-        panel.add(Box.createRigidArea(new Dimension(0, 10)));
-        panel.add(new JLabel("Password:"));
-        panel.add(passwordField);
-        panel.add(Box.createRigidArea(new Dimension(0, 20)));
-        panel.add(loginButton);
-        addButtonToContainer(panel, "EXIT",e -> System.exit(0));
+        credentialsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        credentialsPanel.setMaximumSize(credentialsPanel.getPreferredSize());
+        credentialsPanel.setBackground(Color.white);
 
-        return panel;
+        this.add(credentialsPanel);
+
+
+
+        addRoundedButtonToContainer(this, "go back",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new HomePage(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        },FlowLayout.CENTER, 20);
     }
+
+    private void addTitleToContainer(JPanel container) {
+        JLabel title = new JLabel("Sign-In");
+        title.setForeground(Color.BLACK);
+        title.setFont(new Font("Space Mono", Font.PLAIN, 75));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        container.add(title);
+        container.add(Box.createRigidArea(new Dimension(0, 30)));
+    }
+
 
     private static boolean authenticateUser(String username, String password) {
 
@@ -94,19 +115,16 @@ public class LoginPage {
         return false;
     }
 
-    private static void addButtonToContainer(JPanel container, String buttonText, ActionListener listener) {
-        JButton button = new JButton(buttonText);
-        button.setPreferredSize(new Dimension(300, 50));
-        button.setMaximumSize(new Dimension(300, 50));
-        button.setFont(new Font("Arial", Font.PLAIN, 30));
-        button.setBackground(Color.WHITE);
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setBorder(new LineBorder(Color.black, 3));
-
+    private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {
+        RoundedButton button = new RoundedButton(buttonText);
+        JPanel buttonPanel = new JPanel(new FlowLayout(align));
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.add(button);
+        container.add(Box.createRigidArea(new Dimension(0, gap)));
         if (listener != null) {
             button.addActionListener(listener);
         }
-        container.add(Box.createRigidArea(new Dimension(0, 20)));
-        container.add(button);
+        container.add(buttonPanel);
     }
+
 }
