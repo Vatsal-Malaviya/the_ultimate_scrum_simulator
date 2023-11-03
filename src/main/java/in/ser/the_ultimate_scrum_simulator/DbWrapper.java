@@ -58,7 +58,7 @@ public class DbWrapper {
                 return new UserAuthResult(AuthStatus.TOO_MANY_FAILED_LOGINS, null, failedLogins);
             }
 
-            var hash = r.getString(4);
+            String hash = r.getString(4);
             if (!argon2.matches(password, hash)) {
                 int nc = failedLogins + 1;
                 setFailedLoginCt(username, nc);

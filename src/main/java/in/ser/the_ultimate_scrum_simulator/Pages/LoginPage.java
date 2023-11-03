@@ -2,13 +2,14 @@ package in.ser.the_ultimate_scrum_simulator.Pages;
 
 
 import in.ser.the_ultimate_scrum_simulator.DbWrapper;
+import in.ser.the_ultimate_scrum_simulator.model.AuthStatus;
 import in.ser.the_ultimate_scrum_simulator.model.UserAuthResult;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.border.LineBorder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -50,6 +51,11 @@ public class LoginPage {
             if (authenticateUser(usernameField.getText(), new String(passwordField.getPassword()))) {
                 JOptionPane.showMessageDialog(frame, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 consecutiveLoginAttempts = 0;
+                //show the main page here.
+                frame.getContentPane().removeAll();
+                frame.add(new MainMenu(frame));
+                frame.revalidate();
+                frame.repaint();
             } else {
                 consecutiveLoginAttempts++;
                 if (consecutiveLoginAttempts >= MAX_LOGIN_ATTEMPTS) {
@@ -81,7 +87,9 @@ public class LoginPage {
         DbWrapper db = new DbWrapper();
 
         UserAuthResult ua = db.loginWith(username, password);
-        System.out.println(ua);
+        if(ua.status() == AuthStatus.SUCCESS) {
+            return true;
+        }
 
         return false;
     }
@@ -102,4 +110,3 @@ public class LoginPage {
         container.add(button);
     }
 }
-
