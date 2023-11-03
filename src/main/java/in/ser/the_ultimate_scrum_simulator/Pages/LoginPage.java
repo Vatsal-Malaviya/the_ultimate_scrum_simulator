@@ -9,7 +9,9 @@ import in.ser.the_ultimate_scrum_simulator.model.UserAuthResult;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.border.LineBorder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -22,11 +24,21 @@ public class LoginPage extends MyPanel {
     private static final int MAX_LOGIN_ATTEMPTS = 3;
     private static int consecutiveLoginAttempts = 0;
 
-    public LoginPage(JFrame frame) {
-        this.parentFrame = frame;
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Login Page");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setResizable(true);
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            frame.add(createLoginPage(frame), BorderLayout.CENTER);
+            frame.setVisible(true);
+        });
+    }
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
+    public static JPanel createLoginPage(JFrame frame) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
         addTitleToContainer(this);
 
@@ -103,6 +115,15 @@ public class LoginPage extends MyPanel {
 
 
     private static boolean authenticateUser(String username, String password) {
+
+
+        DbWrapper db = new DbWrapper();
+
+        UserAuthResult ua = db.loginWith(username, password);
+        if(ua.status() == AuthStatus.SUCCESS) {
+            return true;
+        }
+
 
 
         DbWrapper db = new DbWrapper();
