@@ -5,8 +5,10 @@ import in.ser.the_ultimate_scrum_simulator.DbWrapper;
 import in.ser.the_ultimate_scrum_simulator.model.UserAuthResult;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -68,6 +70,7 @@ public class LoginPage {
         panel.add(passwordField);
         panel.add(Box.createRigidArea(new Dimension(0, 20)));
         panel.add(loginButton);
+        addButtonToContainer(panel, "EXIT",e -> System.exit(0));
 
         return panel;
     }
@@ -81,6 +84,22 @@ public class LoginPage {
         System.out.println(ua);
 
         return false;
+    }
+
+    private static void addButtonToContainer(JPanel container, String buttonText, ActionListener listener) {
+        JButton button = new JButton(buttonText);
+        button.setPreferredSize(new Dimension(300, 50));
+        button.setMaximumSize(new Dimension(300, 50));
+        button.setFont(new Font("Arial", Font.PLAIN, 30));
+        button.setBackground(Color.WHITE);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setBorder(new LineBorder(Color.black, 3));
+
+        if (listener != null) {
+            button.addActionListener(listener);
+        }
+        container.add(Box.createRigidArea(new Dimension(0, 20)));
+        container.add(button);
     }
 }
 
