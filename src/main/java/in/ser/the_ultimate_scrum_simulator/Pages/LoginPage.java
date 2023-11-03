@@ -1,6 +1,9 @@
 package in.ser.the_ultimate_scrum_simulator.Pages;
 
 
+import in.ser.the_ultimate_scrum_simulator.DbWrapper;
+import in.ser.the_ultimate_scrum_simulator.model.UserAuthResult;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +28,7 @@ public class LoginPage {
         });
     }
 
-    private static JPanel createLoginPage(JFrame frame) {
+    public static JPanel createLoginPage(JFrame frame) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
@@ -70,10 +73,13 @@ public class LoginPage {
     }
 
     private static boolean authenticateUser(String username, String password) {
-        // The same database connection and authentication logic from the original App.java will be used here
-        // ... (omitted for brevity in this display)
 
-        // This is a stub for now; you would integrate the actual logic here
+
+        DbWrapper db = new DbWrapper();
+
+        UserAuthResult ua = db.loginWith(username, password);
+        System.out.println(ua);
+
         return false;
     }
 }
