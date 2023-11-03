@@ -19,7 +19,12 @@ public class PlayGameViewInstructions extends MyPanel {
 
         addTitleToContainer(this);
         addButtonToContainer(this, "PLAY");
-        addButtonToContainer(this, "INSTRUCTIONS");
+        addButtonToContainer(this, "INSTRUCTIONS",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new InstructionForStudent(parentFrame),BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        });
     }
 
     private void addTitleToContainer(JPanel container) {
