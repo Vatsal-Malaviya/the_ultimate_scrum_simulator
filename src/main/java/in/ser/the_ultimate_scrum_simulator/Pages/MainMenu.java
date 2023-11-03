@@ -52,5 +52,4 @@ public class MainMenu extends MyPanel {
         container.add(Box.createRigidArea(new Dimension(0, 20)));
         container.add(button);
     }
-    //TODO - Add event listeners for buttons
 }

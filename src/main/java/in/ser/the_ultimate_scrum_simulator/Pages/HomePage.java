@@ -23,7 +23,7 @@ public class HomePage extends MyPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 parentFrame.getContentPane().removeAll();
-                parentFrame.add(LoginPage.createLoginPage(parentFrame), BorderLayout.CENTER);
+                parentFrame.add(new LoginPage(parentFrame), BorderLayout.CENTER);
                 parentFrame.revalidate();
                 parentFrame.repaint();
             }
@@ -32,7 +32,7 @@ public class HomePage extends MyPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 parentFrame.getContentPane().removeAll();
-                parentFrame.add(LoginPage.createLoginPage(parentFrame), BorderLayout.CENTER);
+                parentFrame.add(new LoginPage(parentFrame), BorderLayout.CENTER);
                 parentFrame.revalidate();
                 parentFrame.repaint();
             }
