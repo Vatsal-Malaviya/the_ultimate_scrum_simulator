@@ -21,6 +21,7 @@ public class MainMenu extends MyPanel {
         addTitleToContainer(this);
         addButtonToContainer(this, "START");
         addButtonToContainer(this, "HOW TO PLAY?");
+        addButtonToContainer(this, "EXIT",e -> System.exit(0));
     }
 
     private void addTitleToContainer(JPanel container) {
