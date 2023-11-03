@@ -1,8 +1,6 @@
 package in.ser.the_ultimate_scrum_simulator.Pages;
 
-import in.ser.the_ultimate_scrum_simulator.DbWrapper;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyFrame;
-import in.ser.the_ultimate_scrum_simulator.model.UserCreateStatus;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -30,13 +28,6 @@ public class AddUser extends MyFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // add code to save in db
-                DbWrapper db = new DbWrapper();
-                UserCreateStatus ucs = db.registerUser(email.getText(), new String(password.getPassword()), access.getSelectedIndex());
-                if (ucs.equals(UserCreateStatus.SUCCESS)) {
-                    JOptionPane.showMessageDialog(add, name.getText() + " added to Database");
-                } else {
-                    JOptionPane.showMessageDialog(add, "Error " + ucs);
-                }
                 JOptionPane.showMessageDialog(add, name.getText() + " added to Database");
                 reset.doClick();
             }
