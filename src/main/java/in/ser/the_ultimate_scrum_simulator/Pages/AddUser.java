@@ -1,8 +1,12 @@
 package in.ser.the_ultimate_scrum_simulator.Pages;
 
+<<<<<<< HEAD
 import in.ser.the_ultimate_scrum_simulator.DbWrapper;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyFrame;
 import in.ser.the_ultimate_scrum_simulator.model.UserCreateStatus;
+=======
+import in.ser.the_ultimate_scrum_simulator.UserInterface.MyFrame;
+>>>>>>> 45e9b49 (feat: added add user and updated pom.xml UI TG-58 US-29)
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -30,6 +34,7 @@ public class AddUser extends MyFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // add code to save in db
+<<<<<<< HEAD
                 DbWrapper db = new DbWrapper();
                 UserCreateStatus ucs = db.registerUser(email.getText(), new String(password.getPassword()), access.getSelectedIndex());
                 if (ucs.equals(UserCreateStatus.SUCCESS)) {
@@ -37,6 +42,9 @@ public class AddUser extends MyFrame {
                 } else {
                     JOptionPane.showMessageDialog(add, "Error " + ucs);
                 }
+=======
+                JOptionPane.showMessageDialog(add, name.getText() + " added to Database");
+>>>>>>> 45e9b49 (feat: added add user and updated pom.xml UI TG-58 US-29)
                 reset.doClick();
             }
         });
