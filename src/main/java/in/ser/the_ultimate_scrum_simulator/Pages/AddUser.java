@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AddUser extends MyFrame {
-    private final JFrame parentFrame;
     private JTextField name;
     private JTextField email;
     private JComboBox access;
@@ -15,13 +14,8 @@ public class AddUser extends MyFrame {
     private JButton add;
     private JPanel addUserPanel;
     private JButton reset;
-    private JButton back;
 
-    public AddUser(JFrame jFrame) {
-        this.parentFrame = jFrame;
-        this.setContentPane(this.addUserPanel);
-        this.setTitle("Add User");
-        this.setVisible(true);
+    public AddUser() {
         reset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,14 +32,12 @@ public class AddUser extends MyFrame {
                 reset.doClick();
             }
         });
-        back.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                parentFrame.setVisible(true);
-            }
-        });
+    }
 
-
+    public static void main(String[] args) {
+        AddUser frame = new AddUser();
+        frame.setContentPane(frame.addUserPanel);
+        frame.setTitle("Add User");
+        frame.setVisible(true);
     }
 }
