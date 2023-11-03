@@ -37,6 +37,7 @@ public class HomePage extends MyPanel {
                 parentFrame.repaint();
             }
         });
+        addButtonToContainer(this, "EXIT",e -> System.exit(0));
     }
 
     private void addTitleToContainer(JPanel container) {
