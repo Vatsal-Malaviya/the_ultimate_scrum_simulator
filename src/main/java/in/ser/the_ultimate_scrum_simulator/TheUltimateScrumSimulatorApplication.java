@@ -1,11 +1,6 @@
 package in.ser.the_ultimate_scrum_simulator;
 
 import in.ser.the_ultimate_scrum_simulator.Pages.HomePage;
-import in.ser.the_ultimate_scrum_simulator.Pages.InstructionForStudent;
-import in.ser.the_ultimate_scrum_simulator.Pages.InstructionManual;
-import in.ser.the_ultimate_scrum_simulator.Pages.PlayGameViewInstructions;
-=======
->>>>>>> dev
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyFrame;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
 
@@ -24,5 +19,4 @@ public class TheUltimateScrumSimulatorApplication extends MyPanel {
             frame.setVisible(true);
         });
     }
-
 }

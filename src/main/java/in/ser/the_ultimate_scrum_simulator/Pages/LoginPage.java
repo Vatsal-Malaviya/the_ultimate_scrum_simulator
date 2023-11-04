@@ -9,36 +9,24 @@ import in.ser.the_ultimate_scrum_simulator.model.UserAuthResult;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.border.LineBorder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 
 public class LoginPage extends MyPanel {
 
-    private JFrame parentFrame;
-    private static Connection c = null;
-    private static PreparedStatement ps = null;
     private static final int MAX_LOGIN_ATTEMPTS = 3;
+    private static final Connection c = null;
+    private static final PreparedStatement ps = null;
     private static int consecutiveLoginAttempts = 0;
+    private final JFrame parentFrame;
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Login Page");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setResizable(true);
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            frame.add(createLoginPage(frame), BorderLayout.CENTER);
-            frame.setVisible(true);
-        });
-    }
+    public LoginPage(JFrame frame) {
+        this.parentFrame = frame;
 
-    public static JPanel createLoginPage(JFrame frame) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
         addTitleToContainer(this);
 
@@ -68,7 +56,7 @@ public class LoginPage extends MyPanel {
         credentialsPanel.setBorder(new LineBorder(borderColor, 3));
 
 
-        addRoundedButtonToContainer(credentialsPanel, "login",e->{
+        addRoundedButtonToContainer(credentialsPanel, "login", e -> {
             if (authenticateUser(usernameField.getText(), new String(passwordField.getPassword()))) {
                 JOptionPane.showMessageDialog(frame, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 consecutiveLoginAttempts = 0;
@@ -86,7 +74,7 @@ public class LoginPage extends MyPanel {
                     JOptionPane.showMessageDialog(frame, "Invalid credentials. Attempts: " + consecutiveLoginAttempts, "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        },FlowLayout.CENTER, 20);
+        }, FlowLayout.CENTER, 20);
 
         credentialsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         credentialsPanel.setMaximumSize(credentialsPanel.getPreferredSize());
@@ -95,13 +83,21 @@ public class LoginPage extends MyPanel {
         this.add(credentialsPanel);
 
 
-
-        addRoundedButtonToContainer(this, "go back",e->{
+        addRoundedButtonToContainer(this, "go back", e -> {
             parentFrame.getContentPane().removeAll();
             parentFrame.add(new HomePage(parentFrame), BorderLayout.CENTER);
             parentFrame.revalidate();
             parentFrame.repaint();
-        },FlowLayout.CENTER, 20);
+        }, FlowLayout.CENTER, 20);
+    }
+
+    private static boolean authenticateUser(String username, String password) {
+
+
+        DbWrapper db = new DbWrapper();
+
+        UserAuthResult ua = db.loginWith(username, password);
+        return ua.status() == AuthStatus.SUCCESS;
     }
 
     private void addTitleToContainer(JPanel container) {
@@ -111,29 +107,6 @@ public class LoginPage extends MyPanel {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         container.add(title);
         container.add(Box.createRigidArea(new Dimension(0, 30)));
-    }
-
-
-    private static boolean authenticateUser(String username, String password) {
-
-
-        DbWrapper db = new DbWrapper();
-
-        UserAuthResult ua = db.loginWith(username, password);
-        if(ua.status() == AuthStatus.SUCCESS) {
-            return true;
-        }
-
-
-
-        DbWrapper db = new DbWrapper();
-
-        UserAuthResult ua = db.loginWith(username, password);
-        if(ua.status() == AuthStatus.SUCCESS) {
-            return true;
-        }
-
-        return false;
     }
 
     private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {

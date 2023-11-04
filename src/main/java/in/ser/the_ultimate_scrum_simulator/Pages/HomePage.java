@@ -32,12 +32,12 @@ public class HomePage extends MyPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 parentFrame.getContentPane().removeAll();
-                parentFrame.add(new LoginPage(parentFrame), BorderLayout.CENTER);
+                parentFrame.add(new AddUser(parentFrame), BorderLayout.CENTER);
                 parentFrame.revalidate();
                 parentFrame.repaint();
             }
         });
-        addButtonToContainer(this, "EXIT",e -> System.exit(0));
+        addButtonToContainer(this, "EXIT", e -> System.exit(0));
     }
 
     private void addTitleToContainer(JPanel container) {
