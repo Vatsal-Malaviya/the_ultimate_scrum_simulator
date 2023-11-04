@@ -20,7 +20,12 @@ public class MainMenu extends MyPanel {
 
         addTitleToContainer(this);
         addButtonToContainer(this, "START");
-        addButtonToContainer(this, "HOW TO PLAY?");
+        addButtonToContainer(this, "HOW TO PLAY?",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new InstructionManual(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        });
         addButtonToContainer(this, "EXIT",e -> System.exit(0));
     }
 
