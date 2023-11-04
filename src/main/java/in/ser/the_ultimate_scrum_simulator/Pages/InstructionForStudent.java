@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class InstructionForStudent extends MyPanel {
 
@@ -19,7 +20,6 @@ public class InstructionForStudent extends MyPanel {
 
         addTitleToContainer(this);
         addDescriptionToContainer(this);
-        addGoBackButtonToContainer(this);
     }
 
     private void addTitleToContainer(MyPanel container) {
@@ -34,28 +34,28 @@ public class InstructionForStudent extends MyPanel {
         //String role="developer";
         String text="";
 
-            text="Developer Instructions:\n"
-                    + "1. Implement user stories from the sprint backlog.\n"
-                    + "2. Ensure code quality and conduct tests.\n"
-                    + "3. Collaborate with teammates.\n"
-                    + "4. Participate in daily stand-ups and report progress.\n"
-                    + "5. Seek clarifications on requirements from the Product Owner.\n";
+        text="Developer Instructions:\n"
+                + "1. Implement user stories from the sprint backlog.\n"
+                + "2. Ensure code quality and conduct tests.\n"
+                + "3. Collaborate with teammates.\n"
+                + "4. Participate in daily stand-ups and report progress.\n"
+                + "5. Seek clarifications on requirements from the Product Owner.\n";
 
 
-            text+="\nScrum Master Instructions:\n"
-                    + "1. Ensure the team adheres to Scrum principles.\n"
-                    + "2. Facilitate Scrum ceremonies.\n"
-                    + "3. Remove impediments faced by the team.\n"
-                    + "4. Protect the team from external interferences.\n"
-                    + "5. Help the team improve continuously.\n";
-
-            text+="\nProduct Owner Instructions:\n"
-                    + "1. Represent the customer's interest.\n"
-                    + "2. Prioritize the product backlog.\n"
-                    + "3. Clarify requirements and acceptance criteria to the team.\n"
-                    + "4. Accept or reject work results at the end of the sprint.\n"
-                    + "5. Provide feedback during the sprint review.";
-       // }
+//            text+="\nScrum Master Instructions:\n"
+//                    + "1. Ensure the team adheres to Scrum principles.\n"
+//                    + "2. Facilitate Scrum ceremonies.\n"
+//                    + "3. Remove impediments faced by the team.\n"
+//                    + "4. Protect the team from external interferences.\n"
+//                    + "5. Help the team improve continuously.\n";
+//
+//            text+="\nProduct Owner Instructions:\n"
+//                    + "1. Represent the customer's interest.\n"
+//                    + "2. Prioritize the product backlog.\n"
+//                    + "3. Clarify requirements and acceptance criteria to the team.\n"
+//                    + "4. Accept or reject work results at the end of the sprint.\n"
+//                    + "5. Provide feedback during the sprint review.";
+        // }
 
 
         JTextPane description = new JTextPane();
@@ -65,15 +65,27 @@ public class InstructionForStudent extends MyPanel {
         description.setEditable(false);
         description.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.BLACK, 2), new EmptyBorder(25, 50, 180, 50)));
         container.add(description);
+        addRoundedButtonToContainer(this, "go back",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new PlayGameViewInstructions(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        },FlowLayout.LEFT, 20);
     }
 
-    private void addGoBackButtonToContainer(MyPanel container) {
-        RoundedButton goBackButton = new RoundedButton("go back");
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+
+    private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {
+        RoundedButton button = new RoundedButton(buttonText);
+        JPanel buttonPanel = new JPanel(new FlowLayout(align));
         buttonPanel.setBackground(Color.WHITE);
-        buttonPanel.add(goBackButton);
-        container.add(Box.createRigidArea(new Dimension(0, 20)));
-        container.add(buttonPanel); // Add the JPanel to the main container
+        buttonPanel.add(button);
+        container.add(Box.createRigidArea(new Dimension(0, gap)));
+        if (listener != null) {
+            button.addActionListener(listener);
+        }
+        container.add(buttonPanel);
     }
 }
+
 
