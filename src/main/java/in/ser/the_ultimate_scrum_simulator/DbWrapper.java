@@ -21,24 +21,23 @@ public class DbWrapper {
 
     public DbWrapper() {
         this.conn = createConnection();
+        if (conn == null) {
+            throw new RuntimeException("Failed to establish a database connection.");
+        }
     }
 
     private Connection createConnection() {
-
         try {
-            Class.forName(
-                    "org.sqlite.JDBC"); // Driver name
-
-            Connection con = DriverManager.getConnection(
-                    "jdbc:sqlite:" + Path.of("Reduction.db").toAbsolutePath());
+            Class.forName("org.sqlite.JDBC");
+            Connection con = DriverManager.getConnection("jdbc:sqlite:" + Path.of("Reduction.db").toAbsolutePath());
             System.out.println("Path : " + Path.of("Reduction.db").toAbsolutePath());
-
             return con;
         } catch (Exception e) {
-            System.out.println("Failed to create connection : " + e);
+            e.printStackTrace();
             return null;
         }
     }
+
 
     public UserAuthResult loginWith(String username, String password) {
         try {

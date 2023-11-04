@@ -19,5 +19,4 @@ public class TheUltimateScrumSimulatorApplication extends MyPanel {
             frame.setVisible(true);
         });
     }
-
 }
