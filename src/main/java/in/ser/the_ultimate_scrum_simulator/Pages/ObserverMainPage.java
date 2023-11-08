@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class ObserverMainPage extends MyPanel {
-
     private JFrame parentFrame;
 
     public ObserverMainPage(JFrame frame) {
@@ -38,7 +37,6 @@ public class ObserverMainPage extends MyPanel {
         button.setPreferredSize(new Dimension(300, 50));
         button.setMaximumSize(new Dimension(300, 50));
         button.setFont(new Font("Arial", Font.PLAIN, 30));
-
         if (listener != null) {
             button.addActionListener(listener);
         }
