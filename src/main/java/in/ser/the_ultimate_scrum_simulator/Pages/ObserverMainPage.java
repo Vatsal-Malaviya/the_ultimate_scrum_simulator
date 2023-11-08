@@ -2,25 +2,33 @@ package in.ser.the_ultimate_scrum_simulator.Pages;
 
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class ObserverMainPage extends MyPanel {
+
     private JFrame parentFrame;
 
     public ObserverMainPage(JFrame frame) {
         this.parentFrame = frame;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 80, 15));
+        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
         addTitleToContainer(this);
+        addButtonToContainer(this, "MAIN MENU",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new MainMenu(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        });
         addButtonToContainer(this, "VIEW ACTIVE USERS");
         addButtonToContainer(this, "EXIT",e -> System.exit(0));
     }
 
     private void addTitleToContainer(JPanel container) {
-        JLabel title = new JLabel("OBSERVER PAGE");
+        JLabel title = new JLabel("WELCOME MR. OBSERVER");
         title.setForeground(Color.BLACK);
         title.setFont(new Font("Space Mono", Font.PLAIN, 75));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -37,6 +45,10 @@ public class ObserverMainPage extends MyPanel {
         button.setPreferredSize(new Dimension(300, 50));
         button.setMaximumSize(new Dimension(300, 50));
         button.setFont(new Font("Arial", Font.PLAIN, 30));
+        button.setBackground(Color.WHITE);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setBorder(new LineBorder(Color.black, 3));
+
         if (listener != null) {
             button.addActionListener(listener);
         }
