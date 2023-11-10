@@ -144,5 +144,18 @@ public class DbWrapper {
         return r.next();
     }
 
+    public void selectAll() throws SQLException{
+        var sql = "SELECT name FROM users";
+        var ps = conn.prepareStatement(sql);
+        try (var rs    = ps.executeQuery()){
+            // loop through the result set
+            while (rs.next()) {
+                System.out.println(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 }
