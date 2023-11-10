@@ -18,7 +18,7 @@ public class TheUltimateScrumSimulatorApplication extends MyPanel {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setResizable(false);
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            frame.add(new DeleteUser(frame), BorderLayout.CENTER);
+            frame.add(new HomePage(frame), BorderLayout.CENTER);
             frame.setVisible(true);
         });
     }

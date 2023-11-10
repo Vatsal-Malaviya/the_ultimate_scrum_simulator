@@ -1,10 +1,12 @@
 package in.ser.the_ultimate_scrum_simulator.Pages;
 
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
+import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-
+import java.awt.event.ActionListener;
 
 
 public class DeleteUser extends MyPanel {
@@ -31,14 +33,33 @@ public class DeleteUser extends MyPanel {
         usernamePanel.add(new JLabel("Username:"));
         usernamePanel.add(usernameField);
 
-        JPanel emailPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        emailPanel.setOpaque(false); // Making it transparent
-        emailPanel.add(new JLabel("E-mail ID:"));
-        emailPanel.add(emailField);
-
         credentialsPanel.add(usernamePanel);
+        addRoundedButtonToContainer(credentialsPanel, "delete",e->{
+            int response = JOptionPane.showConfirmDialog(
+                    frame,
+                    "Please confirm if you would like to continue with removing this user",
+                    "Confirmation",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            if (response == JOptionPane.YES_OPTION) {
+                JOptionPane.showMessageDialog(frame, "User access has been removed from the system", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                parentFrame.getContentPane().removeAll();
+                parentFrame.add(new DeleteUser(parentFrame), BorderLayout.CENTER);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+            } else if (response == JOptionPane.NO_OPTION) {
+                // User clicked NO
+            }
+        }, FlowLayout.CENTER, 20);
+        addRoundedButtonToContainer(credentialsPanel, "reset",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new DeleteUser(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        }, FlowLayout.CENTER, 0);
+
         credentialsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        credentialsPanel.add(emailPanel);
 
         Color borderColor = Color.BLACK; // Change to desired color
         credentialsPanel.setBorder(new LineBorder(borderColor, 3));
@@ -56,6 +77,18 @@ public class DeleteUser extends MyPanel {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         container.add(title);
         container.add(Box.createRigidArea(new Dimension(0, 30)));
+    }
+
+    private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {
+        RoundedButton button = new RoundedButton(buttonText);
+        JPanel buttonPanel = new JPanel(new FlowLayout(align));
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.add(button);
+        container.add(Box.createRigidArea(new Dimension(0, gap)));
+        if (listener != null) {
+            button.addActionListener(listener);
+        }
+        container.add(buttonPanel);
     }
 
 
