@@ -1,6 +1,7 @@
 package in.ser.the_ultimate_scrum_simulator.Pages;
 
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
+import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -14,17 +15,32 @@ public class PlayGameViewInstructions extends MyPanel {
     public PlayGameViewInstructions(JFrame frame) {
         this.parentFrame = frame;
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
+        this.setLayout(new BorderLayout());
 
-        addTitleToContainer(this);
-        addButtonToContainer(this, "PLAY");
-        addButtonToContainer(this, "INSTRUCTIONS",e->{
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        addTitleToContainer(centerPanel);
+        addButtonToContainer(centerPanel, "PLAY");
+        addButtonToContainer(centerPanel, "INSTRUCTIONS", e -> {
             parentFrame.getContentPane().removeAll();
-            parentFrame.add(new InstructionForStudent(parentFrame),BorderLayout.CENTER);
+            parentFrame.add(new InstructionForStudent(parentFrame), BorderLayout.CENTER);
             parentFrame.revalidate();
             parentFrame.repaint();
         });
+
+        this.add(centerPanel, BorderLayout.CENTER);
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        addRoundedButtonToContainer(bottomPanel, "go back", e -> {
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new StudentSelectRole(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        });
+
+        this.add(bottomPanel, BorderLayout.SOUTH);
     }
 
     private void addTitleToContainer(JPanel container) {
@@ -53,6 +69,14 @@ public class PlayGameViewInstructions extends MyPanel {
             button.addActionListener(listener);
         }
         container.add(Box.createRigidArea(new Dimension(0, 20)));
+        container.add(button);
+    }
+
+    private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener) {
+        RoundedButton button = new RoundedButton(buttonText);
+        if (listener != null) {
+            button.addActionListener(listener);
+        }
         container.add(button);
     }
 }
