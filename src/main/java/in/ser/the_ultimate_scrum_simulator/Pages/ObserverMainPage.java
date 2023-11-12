@@ -6,31 +6,29 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-
-
-public class MainMenu extends MyPanel {
+public class ObserverMainPage extends MyPanel {
 
     private JFrame parentFrame;
 
-    public MainMenu(JFrame frame) {
+    public ObserverMainPage(JFrame frame) {
         this.parentFrame = frame;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
         addTitleToContainer(this);
-        addButtonToContainer(this, "START");
-        addButtonToContainer(this, "HOW TO PLAY?",e->{
+        addButtonToContainer(this, "MAIN MENU",e->{
             parentFrame.getContentPane().removeAll();
-            parentFrame.add(new InstructionManual(parentFrame), BorderLayout.CENTER);
+            parentFrame.add(new MainMenu(parentFrame), BorderLayout.CENTER);
             parentFrame.revalidate();
             parentFrame.repaint();
         });
+        addButtonToContainer(this, "VIEW ACTIVE USERS");
         addButtonToContainer(this, "EXIT",e -> System.exit(0));
     }
 
     private void addTitleToContainer(JPanel container) {
-        JLabel title = new JLabel("MAIN MENU");
+        JLabel title = new JLabel("WELCOME MR. OBSERVER");
         title.setForeground(Color.BLACK);
         title.setFont(new Font("Space Mono", Font.PLAIN, 75));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);

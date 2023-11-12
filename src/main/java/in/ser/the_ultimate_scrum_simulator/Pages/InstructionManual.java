@@ -3,6 +3,7 @@ import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import javax.swing.border.*;
 public class InstructionManual extends MyPanel {
 
@@ -15,7 +16,12 @@ public class InstructionManual extends MyPanel {
 
         addTitleToContainer(this);
         addDescriptionToContainer(this);
-        addGoBackButtonToContainer(this);
+        addRoundedButtonToContainer(this, "go back",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new MainMenu(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        },FlowLayout.LEFT, 20);
     }
 
     private void addTitleToContainer(MyPanel container) {
@@ -59,12 +65,15 @@ public class InstructionManual extends MyPanel {
         container.add(description);
     }
 
-    private void addGoBackButtonToContainer(MyPanel container) {
-        RoundedButton goBackButton = new RoundedButton("go back");
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {
+        RoundedButton button = new RoundedButton(buttonText);
+        JPanel buttonPanel = new JPanel(new FlowLayout(align));
         buttonPanel.setBackground(Color.WHITE);
-        buttonPanel.add(goBackButton);
-        container.add(Box.createRigidArea(new Dimension(0, 20)));
-        container.add(buttonPanel); // Add the JPanel to the main container
+        buttonPanel.add(button);
+        container.add(Box.createRigidArea(new Dimension(0, gap)));
+        if (listener != null) {
+            button.addActionListener(listener);
+        }
+        container.add(buttonPanel);
     }
 }

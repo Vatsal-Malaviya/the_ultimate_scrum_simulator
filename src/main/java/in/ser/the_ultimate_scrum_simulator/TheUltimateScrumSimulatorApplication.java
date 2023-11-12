@@ -3,10 +3,12 @@ package in.ser.the_ultimate_scrum_simulator;
 import in.ser.the_ultimate_scrum_simulator.Pages.HomePage;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyFrame;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.swing.*;
 import java.awt.*;
 
+@SpringBootApplication
 public class TheUltimateScrumSimulatorApplication extends MyPanel {
 
     public static void main(String[] args) {

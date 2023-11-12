@@ -1,10 +1,7 @@
 package in.ser.the_ultimate_scrum_simulator;
 
 
-import in.ser.the_ultimate_scrum_simulator.model.AuthStatus;
-import in.ser.the_ultimate_scrum_simulator.model.User;
-import in.ser.the_ultimate_scrum_simulator.model.UserAuthResult;
-import in.ser.the_ultimate_scrum_simulator.model.UserCreateStatus;
+import in.ser.the_ultimate_scrum_simulator.model.*;
 
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -29,9 +26,7 @@ public class DbWrapper {
     private Connection createConnection() {
         try {
             Class.forName("org.sqlite.JDBC");
-            Connection con = DriverManager.getConnection("jdbc:sqlite:" + Path.of("Reduction.db").toAbsolutePath());
-            System.out.println("Path : " + Path.of("Reduction.db").toAbsolutePath());
-            return con;
+            return DriverManager.getConnection("jdbc:sqlite:" + Path.of("Reduction.db").toAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -110,6 +105,35 @@ public class DbWrapper {
 
         return UserCreateStatus.UNKNOWN_ERROR;
     }
+
+    public UserDeleteStatus deleteUser(String username) {
+        try {
+            if (username.isBlank()) {
+                return UserDeleteStatus.INVALID_USERNAME;
+            }
+            if (!isUsernameTaken(username)) {
+                return UserDeleteStatus.USER_NOT_FOUND;
+            }
+
+            var sql = "delete from users where name = ?";
+            var ps = conn.prepareStatement(sql);
+
+            ps.setString(1, username);
+
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                return UserDeleteStatus.SUCCESS;
+            } else {
+                return UserDeleteStatus.UNKNOWN_ERROR;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return UserDeleteStatus.UNKNOWN_ERROR;
+    }
+
 
     private boolean isUsernameTaken(String username) throws SQLException {
         var sql = "select * from users where name = ?";
