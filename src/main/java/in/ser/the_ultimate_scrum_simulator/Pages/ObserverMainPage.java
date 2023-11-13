@@ -23,7 +23,12 @@ public class ObserverMainPage extends MyPanel {
             parentFrame.revalidate();
             parentFrame.repaint();
         });
-        addButtonToContainer(this, "VIEW ACTIVE USERS");
+        addButtonToContainer(this, "VIEW USERS",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new ObserverActivePage(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        });
         addButtonToContainer(this, "EXIT",e -> System.exit(0));
     }
 
