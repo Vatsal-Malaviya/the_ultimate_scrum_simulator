@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -144,17 +146,20 @@ public class DbWrapper {
         return r.next();
     }
 
-    public void selectAll() throws SQLException{
+    public List<String> selectAll() throws SQLException{
+        List<String> userList = new ArrayList<>();
         var sql = "SELECT name FROM users";
         var ps = conn.prepareStatement(sql);
         try (var rs    = ps.executeQuery()){
             // loop through the result set
             while (rs.next()) {
-                System.out.println(rs.getString("name"));
+                userList.add(rs.getString("name"));
+                //System.out.println(rs.getString("name"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return userList;
     }
 
 
