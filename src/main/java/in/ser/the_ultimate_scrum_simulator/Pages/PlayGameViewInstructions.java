@@ -12,7 +12,7 @@ public class PlayGameViewInstructions extends MyPanel {
 
     private final JFrame parentFrame;
 
-    public PlayGameViewInstructions(JFrame frame) {
+    public PlayGameViewInstructions(JFrame frame, String role) {
         this.parentFrame = frame;
 
         this.setLayout(new BorderLayout());
@@ -25,7 +25,7 @@ public class PlayGameViewInstructions extends MyPanel {
         addButtonToContainer(centerPanel, "PLAY");
         addButtonToContainer(centerPanel, "INSTRUCTIONS", e -> {
             parentFrame.getContentPane().removeAll();
-            parentFrame.add(new InstructionForStudent(parentFrame), BorderLayout.CENTER);
+            parentFrame.add(new InstructionForStudent(parentFrame, role), BorderLayout.CENTER);
             parentFrame.revalidate();
             parentFrame.repaint();
         });
