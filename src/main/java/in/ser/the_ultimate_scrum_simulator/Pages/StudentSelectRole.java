@@ -25,19 +25,19 @@ public class StudentSelectRole extends MyPanel {
         addTitleToContainer(centerPanel);
         addButtonToContainer(centerPanel, "SCRUM MASTER", e -> {
             parentFrame.getContentPane().removeAll();
-            parentFrame.add(new PlayGameViewInstructions(parentFrame), BorderLayout.CENTER);
+            parentFrame.add(new PlayGameViewInstructions(parentFrame, "master"), BorderLayout.CENTER);
             parentFrame.revalidate();
             parentFrame.repaint();
         });
         addButtonToContainer(centerPanel, "DEVELOPER", e -> {
             parentFrame.getContentPane().removeAll();
-            parentFrame.add(new PlayGameViewInstructions(parentFrame), BorderLayout.CENTER);
+            parentFrame.add(new PlayGameViewInstructions(parentFrame, "developer"), BorderLayout.CENTER);
             parentFrame.revalidate();
             parentFrame.repaint();
         });
         addButtonToContainer(centerPanel, "PRODUCT OWNER", e -> {
             parentFrame.getContentPane().removeAll();
-            parentFrame.add(new PlayGameViewInstructions(parentFrame), BorderLayout.CENTER);
+            parentFrame.add(new PlayGameViewInstructions(parentFrame,"owner"), BorderLayout.CENTER);
             parentFrame.revalidate();
             parentFrame.repaint();
         });

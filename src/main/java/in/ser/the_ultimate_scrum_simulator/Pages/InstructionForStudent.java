@@ -13,13 +13,13 @@ public class InstructionForStudent extends MyPanel {
 
     private JFrame parentFrame;
 
-    public InstructionForStudent(JFrame frame) {
+    public InstructionForStudent(JFrame frame, String role) {
         this.parentFrame = frame;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
         addTitleToContainer(this);
-        addDescriptionToContainer(this);
+        addDescriptionToContainer(this, role);
     }
 
     private void addTitleToContainer(MyPanel container) {
@@ -30,32 +30,34 @@ public class InstructionForStudent extends MyPanel {
         container.add(title);
     }
 
-    private void addDescriptionToContainer(MyPanel container) {
-        //String role="developer";
+    private void addDescriptionToContainer(MyPanel container, String role) {
         String text="";
 
-        text="Developer Instructions:\n"
+    if(role.equals("developer")) {
+        text = "Developer Instructions:\n"
                 + "1. Implement user stories from the sprint backlog.\n"
                 + "2. Ensure code quality and conduct tests.\n"
                 + "3. Collaborate with teammates.\n"
                 + "4. Participate in daily stand-ups and report progress.\n"
                 + "5. Seek clarifications on requirements from the Product Owner.\n";
+    }
+        else if(role.equals("master")) {
+            text += "\nScrum Master Instructions:\n"
+                    + "1. Ensure the team adheres to Scrum principles.\n"
+                    + "2. Facilitate Scrum ceremonies.\n"
+                    + "3. Remove impediments faced by the team.\n"
+                    + "4. Protect the team from external interferences.\n"
+                    + "5. Help the team improve continuously.\n";
+        }
+        else{
 
-
-//            text+="\nScrum Master Instructions:\n"
-//                    + "1. Ensure the team adheres to Scrum principles.\n"
-//                    + "2. Facilitate Scrum ceremonies.\n"
-//                    + "3. Remove impediments faced by the team.\n"
-//                    + "4. Protect the team from external interferences.\n"
-//                    + "5. Help the team improve continuously.\n";
-//
-//            text+="\nProduct Owner Instructions:\n"
-//                    + "1. Represent the customer's interest.\n"
-//                    + "2. Prioritize the product backlog.\n"
-//                    + "3. Clarify requirements and acceptance criteria to the team.\n"
-//                    + "4. Accept or reject work results at the end of the sprint.\n"
-//                    + "5. Provide feedback during the sprint review.";
-        // }
+            text+="\nProduct Owner Instructions:\n"
+                    + "1. Represent the customer's interest.\n"
+                    + "2. Prioritize the product backlog.\n"
+                    + "3. Clarify requirements and acceptance criteria to the team.\n"
+                    + "4. Accept or reject work results at the end of the sprint.\n"
+                    + "5. Provide feedback during the sprint review.";
+         }
 
 
         JTextPane description = new JTextPane();
@@ -67,7 +69,7 @@ public class InstructionForStudent extends MyPanel {
         container.add(description);
         addRoundedButtonToContainer(this, "go back",e->{
             parentFrame.getContentPane().removeAll();
-            parentFrame.add(new PlayGameViewInstructions(parentFrame), BorderLayout.CENTER);
+            parentFrame.add(new PlayGameViewInstructions(parentFrame, role), BorderLayout.CENTER);
             parentFrame.revalidate();
             parentFrame.repaint();
         },FlowLayout.LEFT, 20);
