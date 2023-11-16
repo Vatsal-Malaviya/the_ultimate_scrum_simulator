@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class ObserverMainPage extends MyPanel {
 
@@ -25,7 +26,11 @@ public class ObserverMainPage extends MyPanel {
         });
         addButtonToContainer(this, "VIEW USERS",e->{
             parentFrame.getContentPane().removeAll();
-            parentFrame.add(new ObserverActivePage(parentFrame), BorderLayout.CENTER);
+            try {
+                parentFrame.add(new ObserverActivePage(parentFrame), BorderLayout.CENTER);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
             parentFrame.revalidate();
             parentFrame.repaint();
         });
