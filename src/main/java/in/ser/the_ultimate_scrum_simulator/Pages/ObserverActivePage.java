@@ -20,6 +20,12 @@ public class ObserverActivePage extends MyPanel {
         this.parentFrame = frame;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
+        addRoundedButtonToContainer(this, "go back",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new ObserverMainPage(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        },FlowLayout.LEFT, 0);
 
         addTitleToContainer(this);
         addDescriptionToContainer(this);
