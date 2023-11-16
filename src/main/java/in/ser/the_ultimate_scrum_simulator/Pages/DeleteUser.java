@@ -2,6 +2,8 @@ package in.ser.the_ultimate_scrum_simulator.Pages;
 
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
+import in.ser.the_ultimate_scrum_simulator.DbWrapper;
+import in.ser.the_ultimate_scrum_simulator.model.UserDeleteStatus;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -43,12 +45,27 @@ public class DeleteUser extends MyPanel {
                     JOptionPane.INFORMATION_MESSAGE
             );
             if (response == JOptionPane.YES_OPTION) {
-                JOptionPane.showMessageDialog(frame, "User access has been removed from the system", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                parentFrame.getContentPane().removeAll();
-                parentFrame.add(new DeleteUser(parentFrame), BorderLayout.CENTER);
-                parentFrame.revalidate();
-                parentFrame.repaint();
-            } else if (response == JOptionPane.NO_OPTION) {
+                DbWrapper db = new DbWrapper();
+                UserDeleteStatus uds= db.deleteUser(usernameField.getText());
+                if(uds.equals(UserDeleteStatus.SUCCESS)){
+                    JOptionPane.showMessageDialog(frame, "User access has been removed from the system", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                    parentFrame.getContentPane().removeAll();
+                    parentFrame.add(new DeleteUser(parentFrame), BorderLayout.CENTER);
+                    parentFrame.revalidate();
+                    parentFrame.repaint();
+                }
+
+                else{
+                    JOptionPane.showMessageDialog(frame, "Username not found in system", "Error", JOptionPane.INFORMATION_MESSAGE);
+                    parentFrame.getContentPane().removeAll();
+                    parentFrame.add(new DeleteUser(parentFrame), BorderLayout.CENTER);
+                    parentFrame.revalidate();
+                    parentFrame.repaint();
+                }
+
+            }
+
+            else if (response == JOptionPane.NO_OPTION) {
                 // User clicked NO
             }
         }, FlowLayout.CENTER, 20);
@@ -90,7 +107,4 @@ public class DeleteUser extends MyPanel {
         }
         container.add(buttonPanel);
     }
-
-
-
 }
