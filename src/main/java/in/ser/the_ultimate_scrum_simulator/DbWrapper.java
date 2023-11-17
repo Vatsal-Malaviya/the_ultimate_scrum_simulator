@@ -61,6 +61,7 @@ public class DbWrapper {
             int accessGroup = r.getInt("access_group");
             var u = new User(r.getInt(1), r.getString(2), r.getString(4), accessGroup);
             setFailedLoginCt(username, 0);
+            setActive(username);
             return new UserAuthResult(AuthStatus.SUCCESS, Optional.of(u), 0);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,6 +76,13 @@ public class DbWrapper {
 
         ps.setInt(1, ct);
         ps.setString(2, username);
+        ps.execute();
+    }
+
+    private void setActive(String username) throws SQLException {
+        var sql = "update users set is_active = 1 where username = ?";
+        var ps = conn.prepareStatement(sql);
+        ps.setString(1, username);
         ps.execute();
     }
 
