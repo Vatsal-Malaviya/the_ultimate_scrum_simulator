@@ -10,13 +10,13 @@ import java.awt.*;
 
 public class AddUser extends MyPanel {
     private final JFrame parentFrame;
-    private JTextField fullNameField;
-    private JTextField emailField;
-    private JPasswordField passwordField;
-    private JComboBox<String> userTypeDropdown;
-    private RoundedButton addButton;
-    private RoundedButton resetButton;
-    private RoundedButton goBackButton;
+    private final JTextField fullNameField;
+    private final JTextField emailField;
+    private final JPasswordField passwordField;
+    private final JComboBox<String> userTypeDropdown;
+    private final RoundedButton addButton;
+    private final RoundedButton resetButton;
+    private final RoundedButton goBackButton;
 
     public AddUser(JFrame jFrame) {
         this.parentFrame = jFrame;
@@ -57,7 +57,7 @@ public class AddUser extends MyPanel {
         // Event Listeners
         addButton.addActionListener(e -> {
             DbWrapper db = new DbWrapper();
-            UserCreateStatus usc = db.registerUser(emailField.getText(), new String(passwordField.getPassword()), userTypeDropdown.getSelectedIndex());
+            UserCreateStatus usc = db.registerUser(fullNameField.getText(), emailField.getText(), new String(passwordField.getPassword()), userTypeDropdown.getSelectedIndex());
             if (usc.equals(UserCreateStatus.SUCCESS)) {
                 JOptionPane.showMessageDialog(addButton, fullNameField.getText() + " added to Database");
             } else {
