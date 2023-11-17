@@ -7,14 +7,17 @@ public final class User {
     private final String token;
     private final String name;
 
+    private static int accessGroup;
+
     public User(
             int id,
             String token,
-            String name
-    ) {
+            String name,
+            int accessGroup) {
         this.id = id;
         this.token = token;
         this.name = name;
+        User.accessGroup = accessGroup;
     }
 
     public int id() {
@@ -27,6 +30,10 @@ public final class User {
 
     public String name() {
         return name;
+    }
+
+    public static int accessGroup(){
+        return accessGroup;
     }
 
     @Override
