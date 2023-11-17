@@ -75,7 +75,7 @@ public class AddUser extends MyPanel {
 
         goBackButton.addActionListener(e -> {
             parentFrame.getContentPane().removeAll();
-            parentFrame.add(new HomePage(parentFrame), BorderLayout.CENTER);
+            parentFrame.add(new AdminMainMenu(parentFrame), BorderLayout.CENTER);
             parentFrame.revalidate();
             parentFrame.repaint();
         });

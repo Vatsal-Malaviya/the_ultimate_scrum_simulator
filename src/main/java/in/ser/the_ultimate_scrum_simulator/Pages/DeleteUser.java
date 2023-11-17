@@ -76,6 +76,13 @@ public class DeleteUser extends MyPanel {
             parentFrame.repaint();
         }, FlowLayout.CENTER, 0);
 
+        addRoundedButtonToContainer(credentialsPanel, "go back",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new AdminMainMenu(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        }, FlowLayout.CENTER, 0);
+
         credentialsPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
         Color borderColor = Color.BLACK; // Change to desired color
