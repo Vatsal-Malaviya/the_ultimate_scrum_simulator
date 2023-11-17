@@ -34,23 +34,23 @@ class DBTest {
     @Test
     public void registerUser() {
         // Test case 1: Successful registration
-        Assertions.assertEquals(UserCreateStatus.SUCCESS, this.db.registerUser("newUser", "password123", 1));
+        Assertions.assertEquals(UserCreateStatus.SUCCESS, this.db.registerUser("new user", "newUser", "password123", 1));
 
         // Test case 2: Duplicate username, should trigger additional tasks
         Assertions.assertAll("Duplicate username handling",
-                () -> Assertions.assertEquals(UserCreateStatus.USERNAME_TAKEN, this.db.registerUser("existingUser", "password456", 2)),
+                () -> Assertions.assertEquals(UserCreateStatus.USERNAME_TAKEN, this.db.registerUser("existing user", "existingUser", "password456", 2)),
                 () -> Assertions.assertDoesNotThrow(() -> {
                     // Additional steps for USERNAME_TAKEN case
                     Assertions.assertEquals(UserDeleteStatus.SUCCESS, this.db.deleteUser("existingUser"));
-                    Assertions.assertEquals(UserCreateStatus.SUCCESS, this.db.registerUser("existingUser", "password789", 3));
+                    Assertions.assertEquals(UserCreateStatus.SUCCESS, this.db.registerUser("existing user", "existingUser", "password789", 3));
                 })
         );
 
         // Test case 3: Invalid username, expect INVALID_USERNAME
-        Assertions.assertEquals(UserCreateStatus.INVALID_USERNAME, this.db.registerUser("", "password123", 1));
+        Assertions.assertEquals(UserCreateStatus.INVALID_USERNAME, this.db.registerUser("blank user", "", "password123", 1));
 
         // Test case 4: Invalid password, expect INVALID_PASSWORD
-        Assertions.assertEquals(UserCreateStatus.INVALID_PASSWORD, this.db.registerUser("userWithShortPassword", "short", 1));
+        Assertions.assertEquals(UserCreateStatus.INVALID_PASSWORD, this.db.registerUser("invalid password", "userWithShortPassword", "short", 1));
 
         // Cleanup: Assuming deleteUser returns UserDeleteStatus.SUCCESS for successful deletion
         Assertions.assertDoesNotThrow(() -> Assertions.assertEquals(UserDeleteStatus.SUCCESS, this.db.deleteUser("newUser")));
@@ -60,7 +60,7 @@ class DBTest {
     public void testDeleteUser() {
         // Test Case 1: SUCCESS
         // Adding User for deletion
-        Assertions.assertDoesNotThrow(() -> Assertions.assertEquals(UserCreateStatus.SUCCESS, this.db.registerUser("userToDelete", "does not matter", 1)));
+        Assertions.assertDoesNotThrow(() -> Assertions.assertEquals(UserCreateStatus.SUCCESS, this.db.registerUser("temp user", "userToDelete", "does not matter", 1)));
 
         Assertions.assertEquals(UserDeleteStatus.SUCCESS, this.db.deleteUser("userToDelete"));
 
