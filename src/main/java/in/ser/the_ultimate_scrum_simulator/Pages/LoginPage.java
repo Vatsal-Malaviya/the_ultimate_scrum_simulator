@@ -68,13 +68,6 @@ public class LoginPage extends MyPanel {
                     frame.revalidate();
                     frame.repaint();
                 }
-//Commenting since this functionality is not yet complete
-//                else{
-//                    frame.getContentPane().removeAll();
-//                    frame.add(new AdminMainMenu(frame));
-//                    frame.revalidate();
-//                    frame.repaint();
-//                }
 
             } else {
                 consecutiveLoginAttempts++;

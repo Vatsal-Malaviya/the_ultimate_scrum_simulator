@@ -28,15 +28,7 @@ public class HomePage extends MyPanel {
                 parentFrame.repaint();
             }
         });
-        addButtonToContainer(this, "REGISTER", new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parentFrame.getContentPane().removeAll();
-                parentFrame.add(new AddUser(parentFrame), BorderLayout.CENTER);
-                parentFrame.revalidate();
-                parentFrame.repaint();
-            }
-        });
+      
         addButtonToContainer(this, "EXIT", e -> System.exit(0));
     }
 
