@@ -90,7 +90,7 @@ public class DbWrapper {
                 return UserCreateStatus.INVALID_PASSWORD;
             }
 
-            var sql = "insert into users (fullname, username, password, consecutive_incorrect_pass, access_group, is_active) values(?, ?, ?, 0, ?, 0)";
+            var sql = "insert into users (fullname, username, password, consecutive_incorrect_pass, access_group, is_active) values (?, ?, ?, 0, ?, 0)";
             var ps = conn.prepareStatement(sql);
 
             ps.setString(1, fullname);
@@ -142,7 +142,6 @@ public class DbWrapper {
 
         ps.setString(1, username);
         var r = ps.executeQuery();
-        System.out.println(r);
         return r.next();
     }
 
