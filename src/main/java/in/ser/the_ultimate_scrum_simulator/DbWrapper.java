@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public class DbWrapper {
     private static final int MAX_LOGIN_ATTEMPTS = 3;
@@ -38,7 +37,7 @@ public class DbWrapper {
 
     public UserAuthResult loginWith(String username, String password) {
         try {
-            var sql = "select * from users where name = ?";
+            var sql = "select * from users where username = ?";
             var ps = conn.prepareStatement(sql);
 
             ps.setString(1, username);
@@ -60,7 +59,7 @@ public class DbWrapper {
                 return new UserAuthResult(AuthStatus.INCORRECT_PASSWORD, null, nc);
             }
             int accessGroup = r.getInt("access_group");
-            var u = new User(r.getInt(1), r.getString(2), r.getString(4),accessGroup);
+            var u = new User(r.getInt(1), r.getString(2), r.getString(4), accessGroup);
             setFailedLoginCt(username, 0);
             return new UserAuthResult(AuthStatus.SUCCESS, Optional.of(u), 0);
         } catch (SQLException e) {
@@ -71,7 +70,7 @@ public class DbWrapper {
     }
 
     private void setFailedLoginCt(String username, int ct) throws SQLException {
-        var sql = "update users set consecutive_incorrect_pass = ? where name = ?";
+        var sql = "update users set consecutive_incorrect_pass = ? where username = ?";
         var ps = conn.prepareStatement(sql);
 
         ps.setInt(1, ct);
@@ -79,7 +78,7 @@ public class DbWrapper {
         ps.execute();
     }
 
-    public UserCreateStatus registerUser(String username, String password, int accessGroup) {
+    public UserCreateStatus registerUser(String fullname, String username, String password, int accessGroup) {
         try {
             if (username.isBlank()) {
                 return UserCreateStatus.INVALID_USERNAME;
@@ -91,10 +90,10 @@ public class DbWrapper {
                 return UserCreateStatus.INVALID_PASSWORD;
             }
 
-            var sql = "insert into users(token, name, pass_hash, consecutive_incorrect_pass, access_group) values(?, ?, ?, 0, ?)";
+            var sql = "insert into users (fullname, username, password, consecutive_incorrect_pass, access_group, is_active) values(?, ?, ?, 0, ?, 0)";
             var ps = conn.prepareStatement(sql);
 
-            ps.setString(1, UUID.randomUUID().toString());
+            ps.setString(1, fullname);
             ps.setString(2, username);
             ps.setString(3, password);
             ps.setInt(4, accessGroup);
@@ -117,7 +116,7 @@ public class DbWrapper {
                 return UserDeleteStatus.USER_NOT_FOUND;
             }
 
-            var sql = "delete from users where name = ?";
+            var sql = "delete from users where username = ?";
             var ps = conn.prepareStatement(sql);
 
             ps.setString(1, username);
@@ -138,22 +137,23 @@ public class DbWrapper {
 
 
     private boolean isUsernameTaken(String username) throws SQLException {
-        var sql = "select * from users where name = ?";
+        var sql = "select * from users where username = ?";
         var ps = conn.prepareStatement(sql);
 
         ps.setString(1, username);
         var r = ps.executeQuery();
+        System.out.println(r);
         return r.next();
     }
 
-    public List<String> selectAll() throws SQLException{
+    public List<String> selectAll() throws SQLException {
         List<String> userList = new ArrayList<>();
-        var sql = "SELECT name FROM users";
+        var sql = "SELECT username FROM users";
         var ps = conn.prepareStatement(sql);
-        try (var rs    = ps.executeQuery()){
+        try (var rs = ps.executeQuery()) {
             // loop through the result set
             while (rs.next()) {
-                userList.add(rs.getString("name"));
+                userList.add(rs.getString("username"));
                 //System.out.println(rs.getString("name"));
             }
         } catch (SQLException e) {
