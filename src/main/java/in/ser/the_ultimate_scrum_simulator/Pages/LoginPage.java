@@ -5,6 +5,7 @@ import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
 import in.ser.the_ultimate_scrum_simulator.model.AuthStatus;
 import in.ser.the_ultimate_scrum_simulator.model.UserAuthResult;
+import in.ser.the_ultimate_scrum_simulator.model.User;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -61,10 +62,13 @@ public class LoginPage extends MyPanel {
                 JOptionPane.showMessageDialog(frame, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 consecutiveLoginAttempts = 0;
                 //show the main page here.
-                frame.getContentPane().removeAll();
-                frame.add(new MainMenu(frame));
-                frame.revalidate();
-                frame.repaint();
+                if(User.accessGroup()!=0){
+                    frame.getContentPane().removeAll();
+                    frame.add(new MainMenu(frame));
+                    frame.revalidate();
+                    frame.repaint();
+                }
+
             } else {
                 consecutiveLoginAttempts++;
                 if (consecutiveLoginAttempts >= MAX_LOGIN_ATTEMPTS) {

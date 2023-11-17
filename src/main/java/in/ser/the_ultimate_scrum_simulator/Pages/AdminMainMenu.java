@@ -1,39 +1,46 @@
 package in.ser.the_ultimate_scrum_simulator.Pages;
 
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HomePage extends MyPanel {
+public class AdminMainMenu extends MyPanel {
 
-    private final JFrame parentFrame;
+    private JFrame parentFrame;
 
-    public HomePage(JFrame frame) {
+    public AdminMainMenu(JFrame frame) {
         this.parentFrame = frame;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
         addTitleToContainer(this);
-        addButtonToContainer(this, "LOGIN", new ActionListener() {
+        addButtonToContainer(this, "REGISTER USER", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 parentFrame.getContentPane().removeAll();
-                parentFrame.add(new LoginPage(parentFrame), BorderLayout.CENTER);
+                parentFrame.add(new AddUser(parentFrame), BorderLayout.CENTER);
                 parentFrame.revalidate();
                 parentFrame.repaint();
             }
         });
-      
+        addButtonToContainer(this, "DELETE USER", new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentFrame.getContentPane().removeAll();
+                parentFrame.add(new DeleteUser(parentFrame), BorderLayout.CENTER);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+            }
+        });
         addButtonToContainer(this, "EXIT", e -> System.exit(0));
     }
 
     private void addTitleToContainer(JPanel container) {
-        JLabel title = new JLabel("The Ultimate Scrum Simulator");
+        JLabel title = new JLabel("ADMIN MENU");
         title.setForeground(Color.BLACK);
         title.setFont(new Font("Space Mono", Font.PLAIN, 75));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -61,3 +68,4 @@ public class HomePage extends MyPanel {
         container.add(button);
     }
 }
+
