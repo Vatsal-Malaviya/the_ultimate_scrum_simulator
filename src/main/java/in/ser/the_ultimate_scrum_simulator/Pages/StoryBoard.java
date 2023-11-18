@@ -9,10 +9,9 @@ public class StoryBoard extends JPanel {
     private JFrame parentFrame;
     private JPanel backlogPanel, todoPanel, inProgressPanel, completedPanel;
 
-    public StoryBoard(JFrame frame) {
+    public StoryBoard(JFrame frame, String role) {
         this.parentFrame = frame;
         this.setLayout(new BorderLayout());
-
 
         backlogPanel = createSwimlane("BACKLOG");
         todoPanel = createSwimlane("TO DO");
@@ -31,9 +30,27 @@ public class StoryBoard extends JPanel {
         this.add(titleLabel, BorderLayout.NORTH);
         this.add(swimlanesPanel, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        buttonPanel.add(createButton("Go Back", e -> openPlayGameViewInstructions(role)));
+        buttonPanel.add(createButton("Create Burndown Chart", null));
+        buttonPanel.add(createButton("Create Velocity Chart", null));
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    private JButton createButton(String text, ActionListener actionListener) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        if (actionListener != null) {
+            button.addActionListener(actionListener);
+        }
+        return button;
+    }
+
+    public void openPlayGameViewInstructions(String role) {
+        parentFrame.getContentPane().removeAll();
+        parentFrame.add(new PlayGameViewInstructions(parentFrame, role));
+        parentFrame.revalidate();
+        parentFrame.repaint();
+    }
     private JPanel createSwimlane(String title) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -46,7 +63,7 @@ public class StoryBoard extends JPanel {
         JFrame frame = new JFrame("Kanban Board");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(800, 600));
-        frame.add(new StoryBoard(frame));
+        //frame.add(new StoryBoard(frame, role));
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
