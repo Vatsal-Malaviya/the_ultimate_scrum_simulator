@@ -62,6 +62,14 @@ public class LoginPage extends MyPanel {
                 JOptionPane.showMessageDialog(frame, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 consecutiveLoginAttempts = 0;
                 //show the main page here.
+
+                if(User.accessGroup()==0){
+                    frame.getContentPane().removeAll();
+                    frame.add(new AdminMainMenu(frame));
+                    frame.revalidate();
+                    frame.repaint();
+                }
+
                 if(User.accessGroup()!=0){
                     frame.getContentPane().removeAll();
                     frame.add(new MainMenu(frame));
