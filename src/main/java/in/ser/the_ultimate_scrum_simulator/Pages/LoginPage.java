@@ -70,7 +70,14 @@ public class LoginPage extends MyPanel {
                     frame.repaint();
                 }
 
-                if(User.accessGroup()!=0){
+                if(User.accessGroup()==1){
+                    frame.getContentPane().removeAll();
+                    frame.add(new ObserverMainPage(frame));
+                    frame.revalidate();
+                    frame.repaint();
+                }
+
+                if(User.accessGroup()!=0 && User.accessGroup()!=1){
                     frame.getContentPane().removeAll();
                     frame.add(new MainMenu(frame));
                     frame.revalidate();
