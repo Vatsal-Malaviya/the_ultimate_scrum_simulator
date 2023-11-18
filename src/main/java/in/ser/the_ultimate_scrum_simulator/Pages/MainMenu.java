@@ -19,10 +19,15 @@ public class MainMenu extends MyPanel {
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
         addTitleToContainer(this);
-        addButtonToContainer(this, "START");
-        addButtonToContainer(this, "HOW TO PLAY?",e->{
+        addButtonToContainer(this, "START",e->{
             parentFrame.getContentPane().removeAll();
             parentFrame.add(new StudentSelectRole(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        });
+        addButtonToContainer(this, "HOW TO PLAY?",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new InstructionManual(parentFrame), BorderLayout.CENTER);
             parentFrame.revalidate();
             parentFrame.repaint();
         });
