@@ -22,7 +22,7 @@ public class MainMenu extends MyPanel {
         addButtonToContainer(this, "START");
         addButtonToContainer(this, "HOW TO PLAY?",e->{
             parentFrame.getContentPane().removeAll();
-            parentFrame.add(new InstructionManual(parentFrame), BorderLayout.CENTER);
+            parentFrame.add(new StudentSelectRole(parentFrame), BorderLayout.CENTER);
             parentFrame.revalidate();
             parentFrame.repaint();
         });
