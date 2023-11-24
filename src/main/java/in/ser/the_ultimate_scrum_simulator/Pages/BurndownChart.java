@@ -85,4 +85,42 @@ class BurndownChartPanel extends JPanel {
         this.remainingScopeData = remainingScopeData;
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        int width = getWidth();
+        int height = getHeight();
+
+        // Draw the axes
+        g.drawLine(50, height - 50, width - 50, height - 50);
+        g.drawLine(50, height - 50, 50, 50);
+
+        // Draw the total scope line
+        g.drawLine(50, height - 50, width - 50, height - 50);
+
+        // Draw the X-axis title
+        g.drawString("Days Remaining", width / 2 - 10, height - 10);
+
+        // Draw the Y-axis title
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.rotate(-Math.PI / 2);
+        g2d.drawString("Remaining Scope", -height / 2, 20);
+        g2d.rotate(Math.PI / 2);
+        int step = (width - 100) / Math.max(1, remainingScopeData.size());
+        for (int i = 0; i < remainingScopeData.size(); i++) {
+            int x = 50 + i * step;
+            int y = height - 50 - (remainingScopeData.get(i) * (height - 100) / totalScope);
+
+            g.fillOval(x - 3, y - 3, 6, 6);
+
+            if (i < remainingScopeData.size() - 1) {
+                int nextX = 50 + (i + 1) * step;
+                int nextY = height - 50 - (remainingScopeData.get(i + 1) * (height - 100) / totalScope);
+
+                // Draw line to the next point
+                g.drawLine(x, y, nextX, nextY);
+            }
+        }
+    }
 }
