@@ -1,5 +1,6 @@
 package in.ser.the_ultimate_scrum_simulator;
 
+import in.ser.the_ultimate_scrum_simulator.model.AuthStatus;
 import in.ser.the_ultimate_scrum_simulator.model.UserCreateStatus;
 import in.ser.the_ultimate_scrum_simulator.model.UserDeleteStatus;
 import org.junit.jupiter.api.AfterEach;
@@ -70,5 +71,11 @@ class DBTest {
         // Test case 3: Invalid username
         Assertions.assertEquals(UserDeleteStatus.INVALID_USERNAME, this.db.deleteUser(""));
 
+    }
+
+    @Test
+    public void testLogin() {
+        // Test Case 1: Success
+        Assertions.assertEquals(AuthStatus.SUCCESS, this.db.loginWith("existingUser", "password789").status());
     }
 }
