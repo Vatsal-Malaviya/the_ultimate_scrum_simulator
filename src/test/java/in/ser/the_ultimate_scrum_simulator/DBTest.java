@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
+import java.util.List;
 
 class DBTest {
     private DbWrapper db;
@@ -116,5 +118,18 @@ class DBTest {
 
         // Test Case 4: Success
         Assertions.assertEquals(AuthStatus.SUCCESS, this.db.loginWith("existingUser", "password789").status());
+    }
+
+    @Test
+    void testSelectAll() throws SQLException {
+        List<String> users = this.db.selectAll();
+        boolean found = false;
+        for (String usr : users) {
+            if (usr.equals("existingUser")) {
+                found = true;
+                break;
+            }
+        }
+        Assertions.assertTrue(found);
     }
 }
