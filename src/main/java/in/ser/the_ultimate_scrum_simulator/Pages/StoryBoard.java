@@ -32,7 +32,7 @@ public class StoryBoard extends JPanel {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.add(createButton("Go Back", e -> openPlayGameViewInstructions(role)));
         buttonPanel.add(createButton("Create Burndown Chart", null));
-        buttonPanel.add(createButton("Create Velocity Chart", null));
+        buttonPanel.add(createButton("Create Velocity Chart", e -> createVelocityChart() ));
 
         JButton forwardButton = createButton("→", e -> moveTaskForward());
         JButton backwardButton = createButton("←", e -> moveTaskBackward());
@@ -40,6 +40,12 @@ public class StoryBoard extends JPanel {
         buttonPanel.add(forwardButton);
 
         this.add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    private void createVelocityChart() {
+        VelocityChart velocityChartChartApp = new VelocityChart();
+        velocityChartChartApp.setVisible(true);
+
     }
 
     private JButton createButton(String text, ActionListener actionListener) {
