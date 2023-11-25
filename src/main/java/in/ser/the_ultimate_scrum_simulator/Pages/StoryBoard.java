@@ -31,8 +31,8 @@ public class StoryBoard extends JPanel {
         this.add(swimlanesPanel, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.add(createButton("Go Back", e -> openPlayGameViewInstructions(role)));
-        buttonPanel.add(createButton("Create Burndown Chart", e -> createBurndownChart()));
-        buttonPanel.add(createButton("Create Velocity Chart", e -> createVelocityChart()));
+        buttonPanel.add(createButton("Create Burndown Chart", null));
+        buttonPanel.add(createButton("Create Velocity Chart", null));
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -43,15 +43,6 @@ public class StoryBoard extends JPanel {
             button.addActionListener(actionListener);
         }
         return button;
-    }
-
-    private void createBurndownChart() {
-        BurndownChart burndownChartApp = new BurndownChart();
-    }
-
-    private void createVelocityChart() {
-        VelocityChart velocityChartApp = new VelocityChart();
-        velocityChartApp.setVisible(true);
     }
 
     public void openPlayGameViewInstructions(String role) {
