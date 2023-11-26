@@ -6,9 +6,6 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
-import in.ser.the_ultimate_scrum_simulator.model.User;
-
 
 
 public class GameMasterMainMenu extends MyPanel {
@@ -55,17 +52,5 @@ public class GameMasterMainMenu extends MyPanel {
         }
         container.add(Box.createRigidArea(new Dimension(0, 20)));
         container.add(button);
-    }
-
-    private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {
-        RoundedButton button = new RoundedButton(buttonText);
-        JPanel buttonPanel = new JPanel(new FlowLayout(align));
-        buttonPanel.setBackground(Color.WHITE);
-        buttonPanel.add(button);
-        container.add(Box.createRigidArea(new Dimension(0, gap)));
-        if (listener != null) {
-            button.addActionListener(listener);
-        }
-        container.add(buttonPanel);
     }
 }
