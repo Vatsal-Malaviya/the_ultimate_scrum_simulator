@@ -29,7 +29,7 @@ public class LoginPage extends MyPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
-        addTitleToContainer(this);
+        addTitleToContainer(this,"Sign-In");
 
         JPanel credentialsPanel = new JPanel();
         credentialsPanel.setLayout(new BoxLayout(credentialsPanel, BoxLayout.Y_AXIS));
@@ -117,15 +117,6 @@ public class LoginPage extends MyPanel {
 
         UserAuthResult ua = db.loginWith(username, password);
         return ua.status() == AuthStatus.SUCCESS;
-    }
-
-    private void addTitleToContainer(JPanel container) {
-        JLabel title = new JLabel("Sign-In");
-        title.setForeground(Color.BLACK);
-        title.setFont(new Font("Space Mono", Font.PLAIN, 75));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        container.add(title);
-        container.add(Box.createRigidArea(new Dimension(0, 30)));
     }
 
     private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {

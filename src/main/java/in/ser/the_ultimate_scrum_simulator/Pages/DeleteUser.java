@@ -20,7 +20,7 @@ public class DeleteUser extends MyPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
-        addTitleToContainer(this);
+        addTitleToContainer(this,"Delete User");
 
         JPanel credentialsPanel = new JPanel();
         credentialsPanel.setLayout(new BoxLayout(credentialsPanel, BoxLayout.Y_AXIS));
@@ -64,10 +64,6 @@ public class DeleteUser extends MyPanel {
                 }
 
             }
-
-            else if (response == JOptionPane.NO_OPTION) {
-                // User clicked NO
-            }
         }, FlowLayout.CENTER, 20);
         addRoundedButtonToContainer(credentialsPanel, "reset",e->{
             parentFrame.getContentPane().removeAll();
@@ -93,14 +89,6 @@ public class DeleteUser extends MyPanel {
 
         this.add(credentialsPanel);
 
-    }
-    private void addTitleToContainer(JPanel container) {
-        JLabel title = new JLabel("Delete User");
-        title.setForeground(Color.BLACK);
-        title.setFont(new Font("Space Mono", Font.PLAIN, 75));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        container.add(title);
-        container.add(Box.createRigidArea(new Dimension(0, 30)));
     }
 
     private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {

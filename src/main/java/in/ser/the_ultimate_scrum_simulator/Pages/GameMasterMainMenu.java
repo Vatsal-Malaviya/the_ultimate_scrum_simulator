@@ -21,7 +21,7 @@ public class GameMasterMainMenu extends MyPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
-        addTitleToContainer(this);
+        addTitleToContainer(this,"SELECT");
         addButtonToContainer(this, "CREATE SCENARIO",e->{
         });
         addButtonToContainer(this, "VIEW/EDIT SCENARIOS",e->{
@@ -36,14 +36,6 @@ public class GameMasterMainMenu extends MyPanel {
         },FlowLayout.LEFT, 400);
     }
 
-    private void addTitleToContainer(JPanel container) {
-        JLabel title = new JLabel("SELECT");
-        title.setForeground(Color.BLACK);
-        title.setFont(new Font("Space Mono", Font.PLAIN, 75));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        container.add(title);
-        container.add(Box.createRigidArea(new Dimension(0, 30)));
-    }
 
     private void addButtonToContainer(JPanel container, String buttonText) {
         addButtonToContainer(container, buttonText, null);
