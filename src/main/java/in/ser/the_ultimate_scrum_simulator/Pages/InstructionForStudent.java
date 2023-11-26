@@ -1,13 +1,11 @@
 package in.ser.the_ultimate_scrum_simulator.Pages;
 
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
-import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class InstructionForStudent extends MyPanel {
 
@@ -33,7 +31,7 @@ public class InstructionForStudent extends MyPanel {
     private void addDescriptionToContainer(MyPanel container, String role) {
         String text="";
 
-    if(role.equals("developer")) {
+    if("developer".equals(role)) {
         text = "Developer Instructions:\n"
                 + "1. Implement user stories from the sprint backlog.\n"
                 + "2. Ensure code quality and conduct tests.\n"
@@ -41,7 +39,7 @@ public class InstructionForStudent extends MyPanel {
                 + "4. Participate in daily stand-ups and report progress.\n"
                 + "5. Seek clarifications on requirements from the Product Owner.\n";
     }
-        else if(role.equals("master")) {
+        else if("master".equals(role)) {
             text += "\nScrum Master Instructions:\n"
                     + "1. Ensure the team adheres to Scrum principles.\n"
                     + "2. Facilitate Scrum ceremonies.\n"
@@ -73,20 +71,6 @@ public class InstructionForStudent extends MyPanel {
             parentFrame.revalidate();
             parentFrame.repaint();
         },FlowLayout.LEFT, 20);
-    }
-
-
-
-    private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {
-        RoundedButton button = new RoundedButton(buttonText);
-        JPanel buttonPanel = new JPanel(new FlowLayout(align));
-        buttonPanel.setBackground(Color.WHITE);
-        buttonPanel.add(button);
-        container.add(Box.createRigidArea(new Dimension(0, gap)));
-        if (listener != null) {
-            button.addActionListener(listener);
-        }
-        container.add(buttonPanel);
     }
 }
 

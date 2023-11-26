@@ -6,9 +6,6 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
-import in.ser.the_ultimate_scrum_simulator.model.User;
-
 
 
 public class GameMasterMainMenu extends MyPanel {
@@ -21,7 +18,7 @@ public class GameMasterMainMenu extends MyPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
-        addTitleToContainer(this);
+        addTitleToContainer(this,"SELECT");
         addButtonToContainer(this, "CREATE SCENARIO",e->{
         });
         addButtonToContainer(this, "VIEW/EDIT SCENARIOS",e->{
@@ -36,14 +33,6 @@ public class GameMasterMainMenu extends MyPanel {
         },FlowLayout.LEFT, 400);
     }
 
-    private void addTitleToContainer(JPanel container) {
-        JLabel title = new JLabel("SELECT");
-        title.setForeground(Color.BLACK);
-        title.setFont(new Font("Space Mono", Font.PLAIN, 75));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        container.add(title);
-        container.add(Box.createRigidArea(new Dimension(0, 30)));
-    }
 
     private void addButtonToContainer(JPanel container, String buttonText) {
         addButtonToContainer(container, buttonText, null);
@@ -63,17 +52,5 @@ public class GameMasterMainMenu extends MyPanel {
         }
         container.add(Box.createRigidArea(new Dimension(0, 20)));
         container.add(button);
-    }
-
-    private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {
-        RoundedButton button = new RoundedButton(buttonText);
-        JPanel buttonPanel = new JPanel(new FlowLayout(align));
-        buttonPanel.setBackground(Color.WHITE);
-        buttonPanel.add(button);
-        container.add(Box.createRigidArea(new Dimension(0, gap)));
-        if (listener != null) {
-            button.addActionListener(listener);
-        }
-        container.add(buttonPanel);
     }
 }

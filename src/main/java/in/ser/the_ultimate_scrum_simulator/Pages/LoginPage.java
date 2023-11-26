@@ -2,7 +2,6 @@ package in.ser.the_ultimate_scrum_simulator.Pages;
 
 import in.ser.the_ultimate_scrum_simulator.DbWrapper;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
-import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
 import in.ser.the_ultimate_scrum_simulator.model.AuthStatus;
 import in.ser.the_ultimate_scrum_simulator.model.UserAuthResult;
 import in.ser.the_ultimate_scrum_simulator.model.User;
@@ -10,7 +9,6 @@ import in.ser.the_ultimate_scrum_simulator.model.User;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -29,7 +27,7 @@ public class LoginPage extends MyPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
-        addTitleToContainer(this);
+        addTitleToContainer(this,"Sign-In");
 
         JPanel credentialsPanel = new JPanel();
         credentialsPanel.setLayout(new BoxLayout(credentialsPanel, BoxLayout.Y_AXIS));
@@ -118,26 +116,4 @@ public class LoginPage extends MyPanel {
         UserAuthResult ua = db.loginWith(username, password);
         return ua.status() == AuthStatus.SUCCESS;
     }
-
-    private void addTitleToContainer(JPanel container) {
-        JLabel title = new JLabel("Sign-In");
-        title.setForeground(Color.BLACK);
-        title.setFont(new Font("Space Mono", Font.PLAIN, 75));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        container.add(title);
-        container.add(Box.createRigidArea(new Dimension(0, 30)));
-    }
-
-    private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {
-        RoundedButton button = new RoundedButton(buttonText);
-        JPanel buttonPanel = new JPanel(new FlowLayout(align));
-        buttonPanel.setBackground(Color.WHITE);
-        buttonPanel.add(button);
-        container.add(Box.createRigidArea(new Dimension(0, gap)));
-        if (listener != null) {
-            button.addActionListener(listener);
-        }
-        container.add(buttonPanel);
-    }
-
 }

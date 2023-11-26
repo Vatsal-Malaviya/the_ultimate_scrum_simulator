@@ -4,7 +4,6 @@ import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AdminMainMenu extends MyPanel {
@@ -17,40 +16,22 @@ public class AdminMainMenu extends MyPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
-        addTitleToContainer(this);
-        addButtonToContainer(this, "REGISTER USER", new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parentFrame.getContentPane().removeAll();
-                parentFrame.add(new AddUser(parentFrame), BorderLayout.CENTER);
-                parentFrame.revalidate();
-                parentFrame.repaint();
-            }
+        addTitleToContainer(this,"ADMIN MAIN MENU");
+        addButtonToContainer(this, "REGISTER USER", e -> {
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new AddUser(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
         });
-        addButtonToContainer(this, "DELETE USER", new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parentFrame.getContentPane().removeAll();
-                parentFrame.add(new DeleteUser(parentFrame), BorderLayout.CENTER);
-                parentFrame.revalidate();
-                parentFrame.repaint();
-            }
+        addButtonToContainer(this, "DELETE USER", e -> {
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new DeleteUser(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
         });
         addButtonToContainer(this, "EXIT", e -> System.exit(0));
     }
 
-    private void addTitleToContainer(JPanel container) {
-        JLabel title = new JLabel("ADMIN MENU");
-        title.setForeground(Color.BLACK);
-        title.setFont(new Font("Space Mono", Font.PLAIN, 75));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        container.add(title);
-        container.add(Box.createRigidArea(new Dimension(0, 30)));
-    }
-
-    private void addButtonToContainer(JPanel container, String buttonText) {
-        addButtonToContainer(container, buttonText, null);
-    }
 
     private void addButtonToContainer(JPanel container, String buttonText, ActionListener listener) {
         JButton button = new JButton(buttonText);

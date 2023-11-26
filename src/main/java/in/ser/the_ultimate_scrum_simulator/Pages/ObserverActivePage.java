@@ -1,13 +1,11 @@
 package in.ser.the_ultimate_scrum_simulator.Pages;
 import in.ser.the_ultimate_scrum_simulator.DbWrapper;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
-import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
 
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -74,17 +72,5 @@ public class ObserverActivePage extends MyPanel {
     private void setColumnWidths(JTable table, int checkboxWidth, int usernameWidth) {
         table.getColumnModel().getColumn(0).setPreferredWidth(checkboxWidth);
         table.getColumnModel().getColumn(1).setPreferredWidth(usernameWidth);
-    }
-
-    private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {
-        RoundedButton button = new RoundedButton(buttonText);
-        JPanel buttonPanel = new JPanel(new FlowLayout(align));
-        buttonPanel.setBackground(Color.WHITE);
-        buttonPanel.add(button);
-        container.add(Box.createRigidArea(new Dimension(0, gap)));
-        if (listener != null) {
-            button.addActionListener(listener);
-        }
-        container.add(buttonPanel);
     }
 }

@@ -1,9 +1,7 @@
 package in.ser.the_ultimate_scrum_simulator.Pages;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
-import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import javax.swing.border.*;
 public class InstructionManual extends MyPanel {
 
@@ -63,17 +61,5 @@ public class InstructionManual extends MyPanel {
         description.setEditable(false);
         description.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.BLACK, 2), new EmptyBorder(25, 50, 180, 50)));
         container.add(description);
-    }
-
-    private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {
-        RoundedButton button = new RoundedButton(buttonText);
-        JPanel buttonPanel = new JPanel(new FlowLayout(align));
-        buttonPanel.setBackground(Color.WHITE);
-        buttonPanel.add(button);
-        container.add(Box.createRigidArea(new Dimension(0, gap)));
-        if (listener != null) {
-            button.addActionListener(listener);
-        }
-        container.add(buttonPanel);
     }
 }

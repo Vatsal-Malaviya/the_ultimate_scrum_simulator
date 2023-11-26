@@ -17,7 +17,7 @@ public class ObserverMainPage extends MyPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
-        addTitleToContainer(this);
+        addTitleToContainer(this,"WELCOME MR. OBSERVER");
         addButtonToContainer(this, "MAIN MENU",e->{
             parentFrame.getContentPane().removeAll();
             parentFrame.add(new MainMenu(parentFrame), BorderLayout.CENTER);
@@ -35,15 +35,6 @@ public class ObserverMainPage extends MyPanel {
             parentFrame.repaint();
         });
         addButtonToContainer(this, "EXIT",e -> System.exit(0));
-    }
-
-    private void addTitleToContainer(JPanel container) {
-        JLabel title = new JLabel("WELCOME MR. OBSERVER");
-        title.setForeground(Color.BLACK);
-        title.setFont(new Font("Space Mono", Font.PLAIN, 75));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        container.add(title);
-        container.add(Box.createRigidArea(new Dimension(0, 30)));
     }
 
     private void addButtonToContainer(JPanel container, String buttonText) {
