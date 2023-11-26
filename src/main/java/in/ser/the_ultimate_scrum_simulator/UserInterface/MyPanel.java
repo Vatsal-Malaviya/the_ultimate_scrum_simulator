@@ -13,7 +13,7 @@ public class MyPanel extends JPanel {
         JLabel title = new JLabel(header);
         title.setForeground(Color.BLACK);
         title.setFont(new Font("Space Mono", Font.PLAIN, 75));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setAlignmentX(CENTER_ALIGNMENT);
         container.add(title);
         container.add(Box.createRigidArea(new Dimension(0, 30)));
     }
