@@ -1,3 +1,4 @@
+
 package in.ser.the_ultimate_scrum_simulator.Pages;
 
 import javax.swing.*;
@@ -12,10 +13,10 @@ public class StoryBoard extends JPanel {
         this.parentFrame = frame;
         this.setLayout(new BorderLayout());
 
-        backlogPanel = createSwimlane("BACKLOG");
-        todoPanel = createSwimlane("TO DO");
-        inProgressPanel = createSwimlane("IN PROGRESS");
-        completedPanel = createSwimlane("COMPLETED");
+        backlogPanel = createSwimlane("BACKLOG", new Dimension(800, 600)); // Example dimension, adjust as needed
+        todoPanel = createSwimlane("TO DO", null);
+        inProgressPanel = createSwimlane("IN PROGRESS", null);
+        completedPanel = createSwimlane("COMPLETED", null);
 
         JPanel swimlanesPanel = new JPanel(new GridLayout(1, 4, 10, 0));
         swimlanesPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -32,7 +33,7 @@ public class StoryBoard extends JPanel {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         buttonPanel.add(createButton("Go Back", e -> openPlayGameViewInstructions(role)));
         buttonPanel.add(createButton("Create Burndown Chart", e -> openBurndownChart()));
-        buttonPanel.add(createButton("Create Velocity Chart", e -> createVelocityChart() ));
+        buttonPanel.add(createButton("Create Velocity Chart", e -> createVelocityChart()));
 
         JButton forwardButton = createButton("→", e -> moveTaskForward());
         JButton backwardButton = createButton("←", e -> moveTaskBackward());
@@ -42,18 +43,32 @@ public class StoryBoard extends JPanel {
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    private void createVelocityChart() {
-        VelocityChart velocityChartChartApp = new VelocityChart();
-        velocityChartChartApp.setVisible(true);
+    private JPanel createSwimlane(String title, Dimension dimension) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createTitledBorder(title));
 
+        if (title.equals("BACKLOG") && dimension != null) {
+            JPanel taskBox = createTaskBox(dimension);
+            panel.add(taskBox);
+        }
+
+        return panel;
     }
-    private void openBurndownChart() {
-        String role = "PlaceholderRole";
-        parentFrame.getContentPane().removeAll();
-        parentFrame.add(new BurndownChartPanel(parentFrame, role));
-        parentFrame.revalidate();
-        parentFrame.repaint();
+
+    private JPanel createTaskBox(Dimension swimlaneSize) {
+        JPanel taskBox = new JPanel();
+        taskBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        taskBox.add(new JLabel("Sample Task"));
+
+
+        int width = 50;
+        int height = 50;
+        taskBox.setPreferredSize(new Dimension(width, height));
+
+        return taskBox;
     }
+
     private JButton createButton(String text, ActionListener actionListener) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 14));
@@ -64,25 +79,26 @@ public class StoryBoard extends JPanel {
     }
 
     private void moveTaskForward() {
-
+        // Task moving logic
     }
 
     private void moveTaskBackward() {
-
+        // Task moving logic
     }
 
-    public void openPlayGameViewInstructions(String role) {
+    private void openPlayGameViewInstructions(String role) {
         parentFrame.getContentPane().removeAll();
         parentFrame.add(new PlayGameViewInstructions(parentFrame, role));
         parentFrame.revalidate();
         parentFrame.repaint();
     }
 
-    private JPanel createSwimlane(String title) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createTitledBorder(title));
-        return panel;
+    private void openBurndownChart() {
+        // Burndown chart opening logic
+    }
+
+    private void createVelocityChart() {
+        // Velocity chart creation logic
     }
 
     public static void main(String[] args) {
