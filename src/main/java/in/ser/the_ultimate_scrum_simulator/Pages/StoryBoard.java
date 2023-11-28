@@ -1,4 +1,6 @@
+
 package in.ser.the_ultimate_scrum_simulator.Pages;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +14,7 @@ public class StoryBoard extends JPanel {
         this.parentFrame = frame;
         this.setLayout(new BorderLayout());
 
-        backlogPanel = createSwimlane("BACKLOG", new Dimension(50, 50));
+        backlogPanel = createSwimlane("BACKLOG", this.getSize());
         todoPanel = createSwimlane("TO DO", null);
         inProgressPanel = createSwimlane("IN PROGRESS", null);
         completedPanel = createSwimlane("COMPLETED", null);
@@ -46,28 +48,29 @@ public class StoryBoard extends JPanel {
         panel.setBorder(BorderFactory.createTitledBorder(title));
 
         if (title.equals("BACKLOG") && dimension != null) {
-            JPanel taskBox = createTaskBox(dimension);
+            JPanel taskBox = createTaskBox();
             panel.add(taskBox);
         }
 
         return panel;
     }
 
-    private JPanel createTaskBox(Dimension swimlaneSize) {
+    private JPanel createTaskBox() {
         JPanel taskBox = new JPanel();
         taskBox.setLayout(new BoxLayout(taskBox, BoxLayout.X_AXIS));
         taskBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         taskBox.add(new JLabel("Sample Task"));
+        Dimension taskBoxDimension = new Dimension(400, 200);
 
-        Dimension taskBoxDimension = new Dimension(400, 400);
         taskBox.setPreferredSize(taskBoxDimension);
-
-
+        taskBox.setMaximumSize(taskBoxDimension);
+        taskBox.setMinimumSize(taskBoxDimension);
 
         taskBox.setAlignmentY(Component.TOP_ALIGNMENT);
 
         return taskBox;
     }
+
 
 
 
@@ -114,3 +117,4 @@ public class StoryBoard extends JPanel {
         frame.setVisible(true);
     }
 }
+
