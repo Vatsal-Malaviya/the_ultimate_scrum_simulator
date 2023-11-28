@@ -2,9 +2,7 @@ package in.ser.the_ultimate_scrum_simulator;
 
 import in.ser.the_ultimate_scrum_simulator.model.*;
 import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,14 +31,16 @@ public class DbWrapper {
     }
 
 
-    public UserAuthResult loginWith(String username, String password) {
+    public UserAuthResult loginWith(String username, String password) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet r = null;
         try {
             var sql = "select * from users where username = ?";
-            var ps = conn.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
 
             ps.setString(1, username);
 
-            var r = ps.executeQuery();
+            r = ps.executeQuery();
             if (!r.next()) {
                 return new UserAuthResult(AuthStatus.USER_NOT_FOUND, null, 0);
             }
@@ -60,35 +60,48 @@ public class DbWrapper {
             var u = new User(r.getInt(1), r.getString(2), r.getString(4), accessGroup);
             setFailedLoginCt(username, 0);
             setActive(username);
-            ps.close();
-            r.close();
             return new UserAuthResult(AuthStatus.SUCCESS, Optional.of(u), 0);
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            ps.close();
+            r.close();
         }
 
         return new UserAuthResult(AuthStatus.UNKNOWN_ERROR, null, 0);
     }
 
     private void setFailedLoginCt(String username, int ct) throws SQLException {
-        var sql = "update users set consecutive_incorrect_pass = ? where username = ?";
-        var ps = conn.prepareStatement(sql);
-
-        ps.setInt(1, ct);
-        ps.setString(2, username);
-        ps.execute();
-        ps.close();
+        PreparedStatement ps = null;
+        try {
+            var sql = "update users set consecutive_incorrect_pass = ? where username = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, ct);
+            ps.setString(2, username);
+            ps.execute();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            ps.close();
+        }
     }
 
     private void setActive(String username) throws SQLException {
-        var sql = "update users set is_active = 1 where username = ?";
-        var ps = conn.prepareStatement(sql);
-        ps.setString(1, username);
-        ps.execute();
-        ps.close();
+        PreparedStatement ps = null;
+        try {
+            var sql = "update users set is_active = 1 where username = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            ps.close();
+        }
     }
 
-    public UserCreateStatus registerUser(String fullname, String username, String password, int accessGroup) {
+    public UserCreateStatus registerUser(String fullname, String username, String password, int accessGroup) throws SQLException {
+        PreparedStatement ps = null;
         try {
             if (username.isBlank()) {
                 return UserCreateStatus.INVALID_USERNAME;
@@ -101,24 +114,25 @@ public class DbWrapper {
             }
 
             var sql = "insert into users (fullname, username, password, consecutive_incorrect_pass, access_group, is_active) values (?, ?, ?, 0, ?, 0)";
-            var ps = conn.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
 
             ps.setString(1, fullname);
             ps.setString(2, username);
             ps.setString(3, password);
             ps.setInt(4, accessGroup);
-
             ps.execute();
-            ps.close();
             return UserCreateStatus.SUCCESS;
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            ps.close();
         }
 
         return UserCreateStatus.UNKNOWN_ERROR;
     }
 
-    public UserDeleteStatus deleteUser(String username) {
+    public UserDeleteStatus deleteUser(String username) throws SQLException {
+        PreparedStatement ps = null;
         try {
             if (username.isBlank()) {
                 return UserDeleteStatus.INVALID_USERNAME;
@@ -128,7 +142,7 @@ public class DbWrapper {
             }
 
             var sql = "delete from users where username = ?";
-            var ps = conn.prepareStatement(sql);
+            ps = conn.prepareStatement(sql);
 
             ps.setString(1, username);
 
@@ -141,6 +155,8 @@ public class DbWrapper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            ps.close();
         }
 
         return UserDeleteStatus.UNKNOWN_ERROR;
@@ -148,12 +164,19 @@ public class DbWrapper {
 
 
     private boolean isUsernameTaken(String username) throws SQLException {
-        var sql = "select * from users where username = ?";
-        var ps = conn.prepareStatement(sql);
-
-        ps.setString(1, username);
-        var r = ps.executeQuery();
-        ps.close();
+        PreparedStatement ps = null;
+        ResultSet r = null;
+        try {
+            var sql = "select * from users where username = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            r = ps.executeQuery();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            ps.close();
+            r.close();
+        }
         return r.next();
     }
 
