@@ -1,4 +1,3 @@
-
 package in.ser.the_ultimate_scrum_simulator.Pages;
 
 import javax.swing.*;
@@ -13,7 +12,7 @@ public class StoryBoard extends JPanel {
         this.parentFrame = frame;
         this.setLayout(new BorderLayout());
 
-        backlogPanel = createSwimlane("BACKLOG", new Dimension(800, 600)); // Example dimension, adjust as needed
+        backlogPanel = createSwimlane("BACKLOG", new Dimension(50, 50));
         todoPanel = createSwimlane("TO DO", null);
         inProgressPanel = createSwimlane("IN PROGRESS", null);
         completedPanel = createSwimlane("COMPLETED", null);
@@ -34,12 +33,10 @@ public class StoryBoard extends JPanel {
         buttonPanel.add(createButton("Go Back", e -> openPlayGameViewInstructions(role)));
         buttonPanel.add(createButton("Create Burndown Chart", e -> openBurndownChart()));
         buttonPanel.add(createButton("Create Velocity Chart", e -> createVelocityChart()));
-
         JButton forwardButton = createButton("→", e -> moveTaskForward());
         JButton backwardButton = createButton("←", e -> moveTaskBackward());
         buttonPanel.add(backwardButton);
         buttonPanel.add(forwardButton);
-
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -58,16 +55,22 @@ public class StoryBoard extends JPanel {
 
     private JPanel createTaskBox(Dimension swimlaneSize) {
         JPanel taskBox = new JPanel();
+        taskBox.setLayout(new BoxLayout(taskBox, BoxLayout.X_AXIS));
         taskBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         taskBox.add(new JLabel("Sample Task"));
 
+        Dimension taskBoxDimension = new Dimension(400, 400);
+        taskBox.setPreferredSize(taskBoxDimension);
 
-        int width = 50;
-        int height = 50;
-        taskBox.setPreferredSize(new Dimension(width, height));
+
+
+        taskBox.setAlignmentY(Component.TOP_ALIGNMENT);
 
         return taskBox;
     }
+
+
+
 
     private JButton createButton(String text, ActionListener actionListener) {
         JButton button = new JButton(text);
