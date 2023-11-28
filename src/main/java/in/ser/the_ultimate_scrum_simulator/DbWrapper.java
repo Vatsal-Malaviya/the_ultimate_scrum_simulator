@@ -1,8 +1,6 @@
 package in.ser.the_ultimate_scrum_simulator;
 
-
 import in.ser.the_ultimate_scrum_simulator.model.*;
-
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -62,6 +60,8 @@ public class DbWrapper {
             var u = new User(r.getInt(1), r.getString(2), r.getString(4), accessGroup);
             setFailedLoginCt(username, 0);
             setActive(username);
+            ps.close();
+            r.close();
             return new UserAuthResult(AuthStatus.SUCCESS, Optional.of(u), 0);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,6 +77,7 @@ public class DbWrapper {
         ps.setInt(1, ct);
         ps.setString(2, username);
         ps.execute();
+        ps.close();
     }
 
     private void setActive(String username) throws SQLException {
@@ -84,6 +85,7 @@ public class DbWrapper {
         var ps = conn.prepareStatement(sql);
         ps.setString(1, username);
         ps.execute();
+        ps.close();
     }
 
     public UserCreateStatus registerUser(String fullname, String username, String password, int accessGroup) {
@@ -107,6 +109,7 @@ public class DbWrapper {
             ps.setInt(4, accessGroup);
 
             ps.execute();
+            ps.close();
             return UserCreateStatus.SUCCESS;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -150,6 +153,7 @@ public class DbWrapper {
 
         ps.setString(1, username);
         var r = ps.executeQuery();
+        ps.close();
         return r.next();
     }
 
@@ -166,6 +170,7 @@ public class DbWrapper {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        ps.close();
         return userList;
     }
 
