@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
+
 class DBTest {
     private DbWrapper db;
 
@@ -32,7 +34,7 @@ class DBTest {
     }
 
     @Test
-    public void registerUser() {
+    public void registerUser() throws SQLException {
         // Test case 1: Successful registration
         Assertions.assertEquals(UserCreateStatus.SUCCESS, this.db.registerUser("new user", "newUser", "password123", 1));
 

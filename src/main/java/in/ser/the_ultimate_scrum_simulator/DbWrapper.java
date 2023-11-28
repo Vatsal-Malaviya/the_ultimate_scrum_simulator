@@ -131,18 +131,15 @@ public class DbWrapper {
         return UserCreateStatus.UNKNOWN_ERROR;
     }
 
-    public UserDeleteStatus deleteUser(String username) throws SQLException {
-        PreparedStatement ps = null;
+    public UserDeleteStatus deleteUser(String username) {
+        System.out.println(username);
         try {
             if (username.isBlank()) {
                 return UserDeleteStatus.INVALID_USERNAME;
             }
-            if (!isUsernameTaken(username)) {
-                return UserDeleteStatus.USER_NOT_FOUND;
-            }
 
             var sql = "delete from users where username = ?";
-            ps = conn.prepareStatement(sql);
+            var ps = conn.prepareStatement(sql);
 
             ps.setString(1, username);
 
@@ -155,8 +152,6 @@ public class DbWrapper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            ps.close();
         }
 
         return UserDeleteStatus.UNKNOWN_ERROR;
@@ -166,17 +161,22 @@ public class DbWrapper {
     private boolean isUsernameTaken(String username) throws SQLException {
         PreparedStatement ps = null;
         ResultSet r = null;
+
         try {
             var sql = "select * from users where username = ?";
             ps = conn.prepareStatement(sql);
             ps.setString(1, username);
             r = ps.executeQuery();
+            System.out.println("hi");
+            System.out.println(r.next());
+            return r.next();
         }catch (SQLException e) {
             e.printStackTrace();
         }finally {
             ps.close();
-            r.close();
         }
+        System.out.println("fix");
+        System.out.println(r.next());
         return r.next();
     }
 
