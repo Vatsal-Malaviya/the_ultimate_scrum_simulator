@@ -1,11 +1,17 @@
 package in.ser.the_ultimate_scrum_simulator;
 
+import in.ser.the_ultimate_scrum_simulator.model.AuthStatus;
 import in.ser.the_ultimate_scrum_simulator.model.UserCreateStatus;
 import in.ser.the_ultimate_scrum_simulator.model.UserDeleteStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.SQLException;
+import java.util.List;
 
 class DBTest {
     private DbWrapper db;
@@ -70,5 +76,60 @@ class DBTest {
         // Test case 3: Invalid username
         Assertions.assertEquals(UserDeleteStatus.INVALID_USERNAME, this.db.deleteUser(""));
 
+    }
+
+    @Test
+    public void testLogin() {
+        // Get the private method using reflection
+        Method method = null;
+        try {
+            method = DbWrapper.class.getDeclaredMethod("setFailedLoginCt", String.class, int.class);
+            method.setAccessible(true); // Make the method accessible (since it's private)
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Invoke the method on reset failed login attempts to 0
+        try {
+            method.invoke(db, "existingUser", 0);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Test Case 1: User Not Found
+        Assertions.assertEquals(AuthStatus.USER_NOT_FOUND, this.db.loginWith("No Such User", "why bother!").status());
+
+        // Test Case 2: Wrong Password
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(AuthStatus.INCORRECT_PASSWORD, this.db.loginWith("existingUser", "wrongPassword").status()),
+                () -> Assertions.assertEquals(2, this.db.loginWith("existingUser", "wrongPassword").incorrectPasswordAttempts())
+        );
+
+        // Test Case 3: Too many attempts
+        Assertions.assertEquals(AuthStatus.INCORRECT_PASSWORD, this.db.loginWith("existingUser", "wrongPassword").status());
+        Assertions.assertEquals(AuthStatus.TOO_MANY_FAILED_LOGINS, this.db.loginWith("existingUser", "wrongPassword").status());
+
+        // Invoke the method on reset again failed login attempts to 0
+        try {
+            method.invoke(db, "existingUser", 0);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Test Case 4: Success
+        Assertions.assertEquals(AuthStatus.SUCCESS, this.db.loginWith("existingUser", "password789").status());
+    }
+
+    @Test
+    void testSelectAll() throws SQLException {
+        List<String> users = this.db.selectAll();
+        boolean found = false;
+        for (String usr : users) {
+            if (usr.equals("existingUser")) {
+                found = true;
+                break;
+            }
+        }
+        Assertions.assertTrue(found);
     }
 }
