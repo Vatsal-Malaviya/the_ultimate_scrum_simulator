@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import in.ser.the_ultimate_scrum_simulator.model.User;
 
 
 
@@ -18,8 +19,23 @@ public class MainMenu extends MyPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
-        addTitleToContainer(this);
-        addButtonToContainer(this, "START");
+        addTitleToContainer(this,"MAIN-MENU");
+        addButtonToContainer(this, "START",e->{
+            if(User.accessGroup()==4){
+                parentFrame.getContentPane().removeAll();
+                parentFrame.add(new StudentSelectRole(parentFrame), BorderLayout.CENTER);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+            }
+
+            if(User.accessGroup()==3){
+                parentFrame.getContentPane().removeAll();
+                parentFrame.add(new GameMasterMainMenu(parentFrame), BorderLayout.CENTER);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+            }
+
+        });
         addButtonToContainer(this, "HOW TO PLAY?",e->{
             parentFrame.getContentPane().removeAll();
             parentFrame.add(new InstructionManual(parentFrame), BorderLayout.CENTER);
@@ -27,15 +43,6 @@ public class MainMenu extends MyPanel {
             parentFrame.repaint();
         });
         addButtonToContainer(this, "EXIT",e -> System.exit(0));
-    }
-
-    private void addTitleToContainer(JPanel container) {
-        JLabel title = new JLabel("MAIN MENU");
-        title.setForeground(Color.BLACK);
-        title.setFont(new Font("Space Mono", Font.PLAIN, 75));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        container.add(title);
-        container.add(Box.createRigidArea(new Dimension(0, 30)));
     }
 
     private void addButtonToContainer(JPanel container, String buttonText) {

@@ -22,7 +22,12 @@ public class PlayGameViewInstructions extends MyPanel {
         centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         addTitleToContainer(centerPanel);
-        addButtonToContainer(centerPanel, "PLAY");
+        addButtonToContainer(centerPanel, "PLAY", e -> {
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new StoryBoard(parentFrame, role), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        });
         addButtonToContainer(centerPanel, "INSTRUCTIONS", e -> {
             parentFrame.getContentPane().removeAll();
             parentFrame.add(new InstructionForStudent(parentFrame, role), BorderLayout.CENTER);

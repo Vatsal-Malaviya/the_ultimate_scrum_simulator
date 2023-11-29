@@ -4,12 +4,12 @@ import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
 public class RoundedButton extends JButton {
-    private final int CORNER_RADIUS = 25;
-    private final Color DEFAULT_BACKGROUND = Color.WHITE;
+    private static int CORNER_RADIUS = 25;
+    private static Color DEFAULT_BACKGROUND = Color.WHITE;
     private final Color HOVER_BACKGROUND = new Color(230, 230, 230);
 
-    public RoundedButton(String Text) {
-        super(Text);
+    public RoundedButton(String text) {
+        super(text);
         setForeground(Color.BLACK);
         setBackground(DEFAULT_BACKGROUND);
         setFont(new Font("Arial", Font.BOLD, 14));
@@ -19,10 +19,12 @@ public class RoundedButton extends JButton {
 
         // Hover functionality
         addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 setBackground(HOVER_BACKGROUND);
             }
 
+            @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 setBackground(DEFAULT_BACKGROUND);
             }
