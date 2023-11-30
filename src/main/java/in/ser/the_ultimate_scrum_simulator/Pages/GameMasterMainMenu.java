@@ -20,6 +20,10 @@ public class GameMasterMainMenu extends MyPanel {
 
         addTitleToContainer(this,"SELECT");
         addButtonToContainer(this, "CREATE SCENARIO",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new CreateScenario(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
         });
         addButtonToContainer(this, "VIEW/EDIT SCENARIOS",e->{
         });

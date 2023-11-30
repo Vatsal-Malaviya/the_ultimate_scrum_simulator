@@ -57,7 +57,7 @@ public class DbWrapper {
                 return new UserAuthResult(AuthStatus.INCORRECT_PASSWORD, null, nc);
             }
             int accessGroup = r.getInt("access_group");
-            var u = new User(r.getInt(1), r.getString(2), r.getString(4), accessGroup);
+            var u = new User(r.getInt(1), r.getString(2), r.getString(3), accessGroup);
             setFailedLoginCt(username, 0);
             setActive(username);
             return new UserAuthResult(AuthStatus.SUCCESS, Optional.of(u), 0);
