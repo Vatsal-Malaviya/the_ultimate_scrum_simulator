@@ -10,3 +10,22 @@ CREATE TABLE users
     access_group               INT,
     is_active                  boolean
 );
+
+CREATE TABLE scenario
+(
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    title      TEXT not null,
+    creator    TEXT not null,
+    difficulty INT
+);
+
+CREATE TABLE story
+(
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    title       TEXT not null,
+    description TEXT not null,
+    owner       TEXT not null,
+    estimate    INT,
+    scenario_id INTEGER,
+    FOREIGN KEY (scenario_id) REFERENCES scenario (id)
+);
