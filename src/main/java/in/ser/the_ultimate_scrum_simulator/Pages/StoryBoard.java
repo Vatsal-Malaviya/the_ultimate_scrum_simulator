@@ -5,10 +5,13 @@ package in.ser.the_ultimate_scrum_simulator.Pages;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class StoryBoard extends JPanel {
     private JFrame parentFrame;
     private JPanel backlogPanel, todoPanel, inProgressPanel, completedPanel;
+    private JPanel selectedTask = null;
 
     public StoryBoard(JFrame frame, String role) {
         this.parentFrame = frame;
@@ -96,11 +99,24 @@ public class StoryBoard extends JPanel {
     }
 
     private void moveTaskForward() {
-        // Task moving logic
+        if (selectedTask != null) {
+            Container parent = selectedTask.getParent();
+            if (parent.equals(backlogPanel)) {
+                moveTask(todoPanel);
+            } else if (parent.equals(todoPanel)) {
+                moveTask(inProgressPanel);
+            } else if (parent.equals(inProgressPanel)) {
+                moveTask(completedPanel);
+            }
+        }
     }
 
     private void moveTaskBackward() {
         // Task moving logic
+    }
+
+    private void moveTask(JPanel targetPanel){
+
     }
 
     private void openPlayGameViewInstructions(String role) {
