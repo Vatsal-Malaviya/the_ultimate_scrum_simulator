@@ -2,53 +2,74 @@ package in.ser.the_ultimate_scrum_simulator.Pages;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class VelocityChart extends JFrame {
+public class VelocityChart extends JPanel {
 
     private int[] velocities;
     private String[] sprintNames;
+    private JFrame parentFrame;
+    private String role;
 
-    public VelocityChart() {
-        super("Agile Velocity Chart");
+    public VelocityChart(JFrame frame, String role) {
+        this.parentFrame = frame;
+        this.role = role;
 
-        // Example data for demonstration
+
         velocities = new int[]{10, 15, 20};
         sprintNames = new String[]{"Sprint 1", "Sprint 2", "Sprint 3"};
 
-        // Create a button to update the chart
-        JButton updateButton = new JButton("Update Chart");
-        updateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateChart();
-            }
-        });
 
-        // Create a panel to draw the chart
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(new Color(255, 255, 255));
+        JLabel titleLabel = new JLabel("AGILE VELOCITY CHART", SwingConstants.CENTER);
+        titleLabel.setForeground(Color.BLACK);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titlePanel.add(titleLabel);
+
+
         ChartPanel chartPanel = new ChartPanel();
+        JPanel chartPanelWrapper = new JPanel(new BorderLayout());
+        chartPanelWrapper.add(chartPanel, BorderLayout.CENTER);
 
-        // Add components to the frame
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+
+
+        JButton updateChartButton = new JButton("Update Chart");
+        updateChartButton.setFont(new Font("Arial", Font.BOLD, 14));
+        updateChartButton.addActionListener(e -> updateChart());
+        bottomPanel.add(updateChartButton);
+
+
+        JButton goBackButton = new JButton("Go Back");
+        goBackButton.setFont(new Font("Arial", Font.BOLD, 14));
+        goBackButton.addActionListener(e -> goBack(parentFrame));
+        bottomPanel.add(goBackButton);
+
+
         setLayout(new BorderLayout());
-        add(chartPanel, BorderLayout.CENTER);
-        add(updateButton, BorderLayout.SOUTH);
-
-        // Set default close operation and size of the frame
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
-        setLocationRelativeTo(null); // Center the frame on the screen
+        add(titlePanel, BorderLayout.NORTH);
+        add(chartPanelWrapper, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
 
+    private void goBack(JFrame parentFrame) {
+
+        parentFrame.getContentPane().removeAll();
+        parentFrame.add(new StoryBoard(parentFrame, role));
+        parentFrame.revalidate();
+        parentFrame.repaint();
+    }
+
+
     private void updateChart() {
-        // You can get input from the user and update the velocities accordingly
-        // For simplicity, let's assume the user provides velocities for three sprints
+
 
         velocities[0] = Integer.parseInt(JOptionPane.showInputDialog("Enter velocity for Sprint 1:"));
         velocities[1] = Integer.parseInt(JOptionPane.showInputDialog("Enter velocity for Sprint 2:"));
         velocities[2] = Integer.parseInt(JOptionPane.showInputDialog("Enter velocity for Sprint 3:"));
 
-        repaint(); // Redraw the chart with updated data
+        repaint();
     }
 
     private class ChartPanel extends JPanel {
@@ -56,49 +77,33 @@ public class VelocityChart extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
 
-            // Calculate bar width and spacing
-            int barWidth = getWidth() / velocities.length;
+            int barWidth = 200;
             int spacing = 10;
 
-            // Draw x-axis
             g.drawLine(50, getHeight() - 50, getWidth() - 50, getHeight() - 50);
 
-            // Draw y-axis
             g.drawLine(50, 50, 50, getHeight() - 50);
 
-            // Draw y-axis title
-            g.drawString("Velocity", 20, getHeight() / 2);
+            g.drawString("Velocity", 5, getHeight() / 2);
 
-            // Draw x-axis title
-            g.drawString("Sprints", getWidth() / 2, getHeight() - 20);
+            g.drawString("Sprints", getWidth() / 2 - g.getFontMetrics().stringWidth("Sprints") / 2, getHeight() - 10);
 
-            // Draw bars for each sprint
             for (int i = 0; i < velocities.length; i++) {
-                int barHeight = velocities[i] * 5; // Scaling factor for better visualization
+                int barHeight = velocities[i] * 5;
                 int x = 50 + i * (barWidth + spacing);
                 int y = getHeight() - 50 - barHeight;
 
-                // Draw bars
                 g.setColor(Color.BLUE);
                 g.fillRect(x, y, barWidth, barHeight);
 
-                // Draw x-axis values
                 g.setColor(Color.BLACK);
-                g.drawString(sprintNames[i], x + barWidth / 2 - 20, getHeight() - 30);
+                g.drawString(sprintNames[i], x + barWidth / 2 - g.getFontMetrics().stringWidth(sprintNames[i]) / 2, getHeight() - 35);
 
-                // Draw y-axis values
-                g.drawString(Integer.toString(velocities[i]), x + barWidth / 2 - 5, y - 5);
+                g.drawString(Integer.toString(velocities[i]), x + barWidth / 2 - g.getFontMetrics().stringWidth(Integer.toString(velocities[i])) / 2, y - 10);
             }
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new VelocityChart().setVisible(true);
-            }
-        });
-    }
+
 }
 
