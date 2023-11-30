@@ -7,6 +7,7 @@ import in.ser.the_ultimate_scrum_simulator.model.UserCreateStatus;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class AddUser extends MyPanel {
     private final JFrame parentFrame;
@@ -57,7 +58,12 @@ public class AddUser extends MyPanel {
         // Event Listeners
         addButton.addActionListener(e -> {
             DbWrapper db = new DbWrapper();
-            UserCreateStatus usc = db.registerUser(fullNameField.getText(), emailField.getText(), new String(passwordField.getPassword()), userTypeDropdown.getSelectedIndex());
+            UserCreateStatus usc = null;
+            try {
+                usc = db.registerUser(fullNameField.getText(), emailField.getText(), new String(passwordField.getPassword()), userTypeDropdown.getSelectedIndex());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
             if (usc.equals(UserCreateStatus.SUCCESS)) {
                 JOptionPane.showMessageDialog(addButton, fullNameField.getText() + " added to Database");
             } else {
