@@ -197,5 +197,32 @@ public class DbWrapper {
         return userList;
     }
 
+    public CreateScenarioStatus validateAndCreateScenario(String title, String creator, int difficulty) {
+        // Validate input
+        if (title == null || title.trim().isEmpty()) {
+            return CreateScenarioStatus.INVALID_TITLE;
+        }
+        if (creator == null || creator.trim().isEmpty()) {
+            return CreateScenarioStatus.INVALID_CREATOR;
+        }
+        if (difficulty < 0 || difficulty > 2) {
+            return CreateScenarioStatus.INVALID_DIFFICULTY;
+        }
+
+        // Insert into database
+        String sql = "INSERT INTO scenario (title, creator, difficulty) VALUES (?, ?, ?)";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, title);
+            pstmt.setString(2, creator);
+            pstmt.setInt(3, difficulty);
+
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0 ? CreateScenarioStatus.SUCCESS : CreateScenarioStatus.DATABASE_ERROR;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return CreateScenarioStatus.UNKNOWN_ERROR;
+        }
+    }
 
 }

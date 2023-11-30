@@ -3,9 +3,14 @@ package in.ser.the_ultimate_scrum_simulator.Pages;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import java.awt.*;
+
+import in.ser.the_ultimate_scrum_simulator.model.CreateScenarioStatus;
 import in.ser.the_ultimate_scrum_simulator.model.User;
+import in.ser.the_ultimate_scrum_simulator.DbWrapper;
+import in.ser.the_ultimate_scrum_simulator.model.UserDeleteStatus;
+
+import java.sql.SQLException;
 
 public class CreateScenario extends MyPanel {
     private JFrame parentFrame;
@@ -59,6 +64,19 @@ public class CreateScenario extends MyPanel {
         scenarioPanel.setBorder(lineBorder);
 
         addRoundedButtonToContainer(scenarioPanel, "next", e -> {
+            DbWrapper db = new DbWrapper();
+            CreateScenarioStatus css= db.validateAndCreateScenario(titleField.getText(),createdBy.getText(),difficultyComboBox.getSelectedIndex());
+            if(css.equals(CreateScenarioStatus.SUCCESS)){
+                JOptionPane.showMessageDialog(frame, "Scenario has been created", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                parentFrame.getContentPane().removeAll();
+                parentFrame.add(new GameMasterMainMenu(parentFrame), BorderLayout.CENTER);
+                parentFrame.revalidate();
+                parentFrame.repaint();
+            }
+
+            if(css.equals(CreateScenarioStatus.INVALID_TITLE) || css.equals(CreateScenarioStatus.INVALID_CREATOR) || css.equals(CreateScenarioStatus.INVALID_DIFFICULTY)){
+                JOptionPane.showMessageDialog(frame, "All fields should be filled", "Invalid", JOptionPane.INFORMATION_MESSAGE);
+            }
         }, FlowLayout.CENTER, 20);
 
         this.add(scenarioPanel);
