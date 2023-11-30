@@ -12,10 +12,12 @@ public class StoryBoard extends JPanel {
     private JFrame parentFrame;
     private JPanel backlogPanel, todoPanel, inProgressPanel, completedPanel;
     private JPanel selectedTask = null;
+    private String role;
 
     public StoryBoard(JFrame frame, String role) {
         this.parentFrame = frame;
         this.setLayout(new BorderLayout());
+        this.role = role;
 
         backlogPanel = createSwimlane("BACKLOG", this.getSize());
         todoPanel = createSwimlane("TO DO", null);
@@ -142,11 +144,19 @@ public class StoryBoard extends JPanel {
     }
 
     private void openBurndownChart() {
-        // Burndown chart opening logic
+        parentFrame.getContentPane().removeAll();
+        BurndownChartPanel burndownChartPanel = new BurndownChartPanel(parentFrame, role);
+        parentFrame.add(burndownChartPanel);
+        parentFrame.revalidate();
+        parentFrame.repaint();
     }
 
     private void createVelocityChart() {
-        // Velocity chart creation logic
+        parentFrame.getContentPane().removeAll();
+        VelocityChart velocityChart = new VelocityChart(parentFrame, role);
+        parentFrame.add(velocityChart);
+        parentFrame.revalidate();
+        parentFrame.repaint();
     }
 
     public static void main(String[] args) {
