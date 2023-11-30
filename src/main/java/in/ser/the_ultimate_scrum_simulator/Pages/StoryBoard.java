@@ -112,7 +112,16 @@ public class StoryBoard extends JPanel {
     }
 
     private void moveTaskBackward() {
-        // Task moving logic
+        if (selectedTask != null) {
+            Container parent = selectedTask.getParent();
+            if (parent.equals(todoPanel)) {
+                moveTask(backlogPanel);
+            } else if (parent.equals(inProgressPanel)) {
+                moveTask(todoPanel);
+            } else if (parent.equals(completedPanel)) {
+                moveTask(inProgressPanel);
+            }
+        }
     }
 
     private void moveTask(JPanel targetPanel){
