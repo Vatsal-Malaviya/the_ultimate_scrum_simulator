@@ -11,6 +11,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 
 public class LoginPage extends MyPanel {
@@ -56,40 +57,44 @@ public class LoginPage extends MyPanel {
 
 
         addRoundedButtonToContainer(credentialsPanel, "login", e -> {
-            if (authenticateUser(usernameField.getText(), new String(passwordField.getPassword()))) {
-                JOptionPane.showMessageDialog(frame, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
-                consecutiveLoginAttempts = 0;
-                //show the main page here.
+            try {
+                if (authenticateUser(usernameField.getText(), new String(passwordField.getPassword()))) {
+                    JOptionPane.showMessageDialog(frame, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    consecutiveLoginAttempts = 0;
+                    //show the main page here.
 
-                if(User.accessGroup()==0){
-                    frame.getContentPane().removeAll();
-                    frame.add(new AdminMainMenu(frame));
-                    frame.revalidate();
-                    frame.repaint();
-                }
+                    if(User.accessGroup()==0){
+                        frame.getContentPane().removeAll();
+                        frame.add(new AdminMainMenu(frame));
+                        frame.revalidate();
+                        frame.repaint();
+                    }
 
-                if(User.accessGroup()==1){
-                    frame.getContentPane().removeAll();
-                    frame.add(new ObserverMainPage(frame));
-                    frame.revalidate();
-                    frame.repaint();
-                }
+                    if(User.accessGroup()==1){
+                        frame.getContentPane().removeAll();
+                        frame.add(new ObserverMainPage(frame));
+                        frame.revalidate();
+                        frame.repaint();
+                    }
 
-                if(User.accessGroup()!=0 && User.accessGroup()!=1){
-                    frame.getContentPane().removeAll();
-                    frame.add(new MainMenu(frame));
-                    frame.revalidate();
-                    frame.repaint();
-                }
+                    if(User.accessGroup()!=0 && User.accessGroup()!=1){
+                        frame.getContentPane().removeAll();
+                        frame.add(new MainMenu(frame));
+                        frame.revalidate();
+                        frame.repaint();
+                    }
 
-            } else {
-                consecutiveLoginAttempts++;
-                if (consecutiveLoginAttempts >= MAX_LOGIN_ATTEMPTS) {
-                    JOptionPane.showMessageDialog(frame, "Too many login attempts. Closing application.", "Error", JOptionPane.ERROR_MESSAGE);
-                    System.exit(0);
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Invalid credentials. Attempts: " + consecutiveLoginAttempts, "Error", JOptionPane.ERROR_MESSAGE);
+                    consecutiveLoginAttempts++;
+                    if (consecutiveLoginAttempts >= MAX_LOGIN_ATTEMPTS) {
+                        JOptionPane.showMessageDialog(frame, "Too many login attempts. Closing application.", "Error", JOptionPane.ERROR_MESSAGE);
+                        System.exit(0);
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Invalid credentials. Attempts: " + consecutiveLoginAttempts, "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
         }, FlowLayout.CENTER, 20);
 
@@ -108,7 +113,7 @@ public class LoginPage extends MyPanel {
         }, FlowLayout.CENTER, 20);
     }
 
-    private static boolean authenticateUser(String username, String password) {
+    private static boolean authenticateUser(String username, String password) throws SQLException {
 
 
         DbWrapper db = new DbWrapper();
