@@ -1,6 +1,7 @@
 
 package in.ser.the_ultimate_scrum_simulator.Pages;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -13,7 +14,7 @@ public class StoryBoard extends JPanel {
         this.parentFrame = frame;
         this.setLayout(new BorderLayout());
 
-        backlogPanel = createSwimlane("BACKLOG", new Dimension(800, 600)); // Example dimension, adjust as needed
+        backlogPanel = createSwimlane("BACKLOG", this.getSize());
         todoPanel = createSwimlane("TO DO", null);
         inProgressPanel = createSwimlane("IN PROGRESS", null);
         completedPanel = createSwimlane("COMPLETED", null);
@@ -34,12 +35,10 @@ public class StoryBoard extends JPanel {
         buttonPanel.add(createButton("Go Back", e -> openPlayGameViewInstructions(role)));
         buttonPanel.add(createButton("Create Burndown Chart", e -> openBurndownChart()));
         buttonPanel.add(createButton("Create Velocity Chart", e -> createVelocityChart()));
-
         JButton forwardButton = createButton("→", e -> moveTaskForward());
         JButton backwardButton = createButton("←", e -> moveTaskBackward());
         buttonPanel.add(backwardButton);
         buttonPanel.add(forwardButton);
-
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -49,25 +48,32 @@ public class StoryBoard extends JPanel {
         panel.setBorder(BorderFactory.createTitledBorder(title));
 
         if (title.equals("BACKLOG") && dimension != null) {
-            JPanel taskBox = createTaskBox(dimension);
+            JPanel taskBox = createTaskBox();
             panel.add(taskBox);
         }
 
         return panel;
     }
 
-    private JPanel createTaskBox(Dimension swimlaneSize) {
+    private JPanel createTaskBox() {
         JPanel taskBox = new JPanel();
+        taskBox.setLayout(new BoxLayout(taskBox, BoxLayout.X_AXIS));
         taskBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         taskBox.add(new JLabel("Sample Task"));
+        Dimension taskBoxDimension = new Dimension(400, 200);
 
+        taskBox.setPreferredSize(taskBoxDimension);
+        taskBox.setMaximumSize(taskBoxDimension);
+        taskBox.setMinimumSize(taskBoxDimension);
 
-        int width = 50;
-        int height = 50;
-        taskBox.setPreferredSize(new Dimension(width, height));
+        taskBox.setAlignmentY(Component.TOP_ALIGNMENT);
 
         return taskBox;
     }
+
+
+
+
 
     private JButton createButton(String text, ActionListener actionListener) {
         JButton button = new JButton(text);
@@ -111,3 +117,4 @@ public class StoryBoard extends JPanel {
         frame.setVisible(true);
     }
 }
+
