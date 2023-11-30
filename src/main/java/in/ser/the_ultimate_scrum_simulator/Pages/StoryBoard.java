@@ -67,6 +67,17 @@ public class StoryBoard extends JPanel {
         taskBox.setMinimumSize(taskBoxDimension);
 
         taskBox.setAlignmentY(Component.TOP_ALIGNMENT);
+        taskBox.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (selectedTask != null) {
+                    selectedTask.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                }
+                selectedTask = taskBox;
+                selectedTask.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+            }
+        });
+
 
         return taskBox;
     }
