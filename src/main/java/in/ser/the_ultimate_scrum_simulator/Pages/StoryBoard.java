@@ -125,7 +125,13 @@ public class StoryBoard extends JPanel {
     }
 
     private void moveTask(JPanel targetPanel){
-
+        Container parent = selectedTask.getParent();
+        parent.remove(selectedTask);
+        targetPanel.add(selectedTask);
+        parent.revalidate();
+        parent.repaint();
+        targetPanel.revalidate();
+        targetPanel.repaint();
     }
 
     private void openPlayGameViewInstructions(String role) {
