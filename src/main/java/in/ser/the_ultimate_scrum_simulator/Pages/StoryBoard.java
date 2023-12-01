@@ -5,14 +5,19 @@ package in.ser.the_ultimate_scrum_simulator.Pages;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class StoryBoard extends JPanel {
     private JFrame parentFrame;
     private JPanel backlogPanel, todoPanel, inProgressPanel, completedPanel;
+    private JPanel selectedTask = null;
+    private String role;
 
     public StoryBoard(JFrame frame, String role) {
         this.parentFrame = frame;
         this.setLayout(new BorderLayout());
+        this.role = role;
 
         backlogPanel = createSwimlane("BACKLOG", this.getSize());
         todoPanel = createSwimlane("TO DO", null);
@@ -67,6 +72,17 @@ public class StoryBoard extends JPanel {
         taskBox.setMinimumSize(taskBoxDimension);
 
         taskBox.setAlignmentY(Component.TOP_ALIGNMENT);
+        taskBox.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (selectedTask != null) {
+                    selectedTask.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                }
+                selectedTask = taskBox;
+                selectedTask.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
+            }
+        });
+
 
         return taskBox;
     }
@@ -85,11 +101,39 @@ public class StoryBoard extends JPanel {
     }
 
     private void moveTaskForward() {
-        // Task moving logic
+        if (selectedTask != null) {
+            Container parent = selectedTask.getParent();
+            if (parent.equals(backlogPanel)) {
+                moveTask(todoPanel);
+            } else if (parent.equals(todoPanel)) {
+                moveTask(inProgressPanel);
+            } else if (parent.equals(inProgressPanel)) {
+                moveTask(completedPanel);
+            }
+        }
     }
 
     private void moveTaskBackward() {
-        // Task moving logic
+        if (selectedTask != null) {
+            Container parent = selectedTask.getParent();
+            if (parent.equals(todoPanel)) {
+                moveTask(backlogPanel);
+            } else if (parent.equals(inProgressPanel)) {
+                moveTask(todoPanel);
+            } else if (parent.equals(completedPanel)) {
+                moveTask(inProgressPanel);
+            }
+        }
+    }
+
+    private void moveTask(JPanel targetPanel){
+        Container parent = selectedTask.getParent();
+        parent.remove(selectedTask);
+        targetPanel.add(selectedTask);
+        parent.revalidate();
+        parent.repaint();
+        targetPanel.revalidate();
+        targetPanel.repaint();
     }
 
     private void openPlayGameViewInstructions(String role) {
@@ -100,11 +144,19 @@ public class StoryBoard extends JPanel {
     }
 
     private void openBurndownChart() {
-        // Burndown chart opening logic
+        parentFrame.getContentPane().removeAll();
+        BurndownChartPanel burndownChartPanel = new BurndownChartPanel(parentFrame, role);
+        parentFrame.add(burndownChartPanel);
+        parentFrame.revalidate();
+        parentFrame.repaint();
     }
 
     private void createVelocityChart() {
-        // Velocity chart creation logic
+        parentFrame.getContentPane().removeAll();
+        VelocityChart velocityChart = new VelocityChart(parentFrame, role);
+        parentFrame.add(velocityChart);
+        parentFrame.revalidate();
+        parentFrame.repaint();
     }
 
     public static void main(String[] args) {
