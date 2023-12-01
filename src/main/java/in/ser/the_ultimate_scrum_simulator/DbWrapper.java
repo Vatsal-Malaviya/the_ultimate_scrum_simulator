@@ -221,4 +221,45 @@ public class DbWrapper {
         }
     }
 
+    public CreateStoryStatus createStory(String title, String description, String owner, int estimate, int scenarioId) {
+        try {
+            // Validate input
+            if (title == null || title.trim().isEmpty() || description == null || description.trim().isEmpty()
+                    || owner == null || owner.trim().isEmpty() || estimate < 0) {
+                return CreateStoryStatus.INVALID_INPUT;
+            }
+
+            // Check if the scenarioId exists in the scenario table
+            if (!isScenarioExist(scenarioId)) {
+                return CreateStoryStatus.INVALID_SCENARIO_ID;
+            }
+
+            // Insert into the story table
+            String sql = "INSERT INTO story (title, description, owner, estimate, scenario_id) VALUES (?, ?, ?, ?, ?)";
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, title);
+                pstmt.setString(2, description);
+                pstmt.setString(3, owner);
+                pstmt.setInt(4, estimate);
+                pstmt.setInt(5, scenarioId);
+
+                int affectedRows = pstmt.executeUpdate();
+                return affectedRows > 0 ? CreateStoryStatus.SUCCESS : CreateStoryStatus.DATABASE_ERROR;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return CreateStoryStatus.UNKNOWN_ERROR;
+        }
+    }
+
+    private boolean isScenarioExist(int scenarioId) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("SELECT 1 FROM scenario WHERE id = ?")) {
+            ps.setInt(1, scenarioId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
 }
