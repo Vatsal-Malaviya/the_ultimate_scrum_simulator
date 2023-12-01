@@ -1,6 +1,7 @@
 package in.ser.the_ultimate_scrum_simulator;
 
 import in.ser.the_ultimate_scrum_simulator.model.*;
+
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class DbWrapper {
             return new UserAuthResult(AuthStatus.SUCCESS, Optional.of(u), 0);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             ps.close();
             r.close();
         }
@@ -79,9 +80,9 @@ public class DbWrapper {
             ps.setInt(1, ct);
             ps.setString(2, username);
             ps.execute();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             ps.close();
         }
     }
@@ -95,7 +96,7 @@ public class DbWrapper {
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             ps.close();
         }
     }
@@ -124,7 +125,7 @@ public class DbWrapper {
             return UserCreateStatus.SUCCESS;
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             ps.close();
         }
 
@@ -167,16 +168,12 @@ public class DbWrapper {
             ps = conn.prepareStatement(sql);
             ps.setString(1, username);
             r = ps.executeQuery();
-            System.out.println("hi");
-            System.out.println(r.next());
             return r.next();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             ps.close();
         }
-        System.out.println("fix");
-        System.out.println(r.next());
         return r.next();
     }
 
@@ -188,7 +185,6 @@ public class DbWrapper {
             // loop through the result set
             while (rs.next()) {
                 userList.add(rs.getString("username"));
-                //System.out.println(rs.getString("name"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
