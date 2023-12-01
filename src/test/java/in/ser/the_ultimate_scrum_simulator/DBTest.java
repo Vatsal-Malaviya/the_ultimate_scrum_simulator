@@ -1,13 +1,11 @@
 package in.ser.the_ultimate_scrum_simulator;
 
-import in.ser.the_ultimate_scrum_simulator.model.AuthStatus;
-import in.ser.the_ultimate_scrum_simulator.model.UserCreateStatus;
-import in.ser.the_ultimate_scrum_simulator.model.UserDeleteStatus;
+import in.ser.the_ultimate_scrum_simulator.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.sql.SQLException;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
@@ -79,7 +77,7 @@ class DBTest {
     }
 
     @Test
-    public void testLogin() {
+    public void testLogin() throws SQLException {
         // Get the private method using reflection
         Method method = null;
         try {
@@ -121,6 +119,25 @@ class DBTest {
     }
 
     @Test
+    void validateAndCreateScenario() throws SQLException {
+        // Test Case 1: Successful scenario creation
+        CreateScenarioStatus status1 = db.validateAndCreateScenario("Title1", "Creator1", 1);
+        Assertions.assertEquals(CreateScenarioStatus.SUCCESS, status1);
+
+        // Test Case 2: Invalid title
+        CreateScenarioStatus status2 = db.validateAndCreateScenario(null, "Creator2", 1);
+        Assertions.assertEquals(CreateScenarioStatus.INVALID_TITLE, status2);
+
+        // Test Case 3: Invalid creator
+        CreateScenarioStatus status3 = db.validateAndCreateScenario("Title3", null, 1);
+        Assertions.assertEquals(CreateScenarioStatus.INVALID_CREATOR, status3);
+
+        // Test Case 4: Invalid difficulty
+        CreateScenarioStatus status4 = db.validateAndCreateScenario("Title4", "Creator4", 3);
+        Assertions.assertEquals(CreateScenarioStatus.INVALID_DIFFICULTY, status4);
+    }
+
+    @Test
     void testSelectAll() throws SQLException {
         List<String> users = this.db.selectAll();
         boolean found = false;
@@ -131,5 +148,24 @@ class DBTest {
             }
         }
         Assertions.assertTrue(found);
+    }
+
+    @Test
+    public void testCreateStory() {
+        // Assuming you have an instance of DbWrapper, replace with actual instance if needed
+        DbWrapper dbWrapper = new DbWrapper();
+
+        // Test data
+        String title = "Test Story";
+        String description = "This is a test story";
+        String owner = "Test Owner";
+        int estimate = 5;
+        int scenarioId = 1; // Replace with an existing scenario ID
+
+        // Call the method and get the result
+        CreateStoryStatus result = dbWrapper.createStory(title, description, owner, estimate, scenarioId);
+
+        // Assert the result
+        Assertions.assertEquals(CreateStoryStatus.SUCCESS, result);
     }
 }

@@ -1,6 +1,7 @@
 package in.ser.the_ultimate_scrum_simulator;
 
 import in.ser.the_ultimate_scrum_simulator.model.*;
+
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class DbWrapper {
             return new UserAuthResult(AuthStatus.SUCCESS, Optional.of(u), 0);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             ps.close();
             r.close();
         }
@@ -79,9 +80,9 @@ public class DbWrapper {
             ps.setInt(1, ct);
             ps.setString(2, username);
             ps.execute();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             ps.close();
         }
     }
@@ -95,7 +96,7 @@ public class DbWrapper {
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             ps.close();
         }
     }
@@ -124,17 +125,18 @@ public class DbWrapper {
             return UserCreateStatus.SUCCESS;
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            ps.close();
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
         }
 
         return UserCreateStatus.UNKNOWN_ERROR;
     }
 
     public UserDeleteStatus deleteUser(String username) {
-        System.out.println(username);
         try {
-            if (username.isBlank()) {
+            if (username == null || username.isBlank()) {
                 return UserDeleteStatus.INVALID_USERNAME;
             }
 
@@ -148,13 +150,12 @@ public class DbWrapper {
             if (rowsAffected > 0) {
                 return UserDeleteStatus.SUCCESS;
             } else {
-                return UserDeleteStatus.UNKNOWN_ERROR;
+                return UserDeleteStatus.USER_NOT_FOUND;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return UserDeleteStatus.UNKNOWN_ERROR;
         }
-
-        return UserDeleteStatus.UNKNOWN_ERROR;
     }
 
 
@@ -167,16 +168,12 @@ public class DbWrapper {
             ps = conn.prepareStatement(sql);
             ps.setString(1, username);
             r = ps.executeQuery();
-            System.out.println("hi");
-            System.out.println(r.next());
             return r.next();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             ps.close();
         }
-        System.out.println("fix");
-        System.out.println(r.next());
         return r.next();
     }
 
@@ -188,7 +185,6 @@ public class DbWrapper {
             // loop through the result set
             while (rs.next()) {
                 userList.add(rs.getString("username"));
-                //System.out.println(rs.getString("name"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -222,6 +218,47 @@ public class DbWrapper {
         } catch (SQLException e) {
             e.printStackTrace();
             return CreateScenarioStatus.UNKNOWN_ERROR;
+        }
+    }
+
+    public CreateStoryStatus createStory(String title, String description, String owner, int estimate, int scenarioId) {
+        try {
+            // Validate input
+            if (title == null || title.trim().isEmpty() || description == null || description.trim().isEmpty()
+                    || owner == null || owner.trim().isEmpty() || estimate < 0) {
+                return CreateStoryStatus.INVALID_INPUT;
+            }
+
+            // Check if the scenarioId exists in the scenario table
+            if (!isScenarioExist(scenarioId)) {
+                return CreateStoryStatus.INVALID_SCENARIO_ID;
+            }
+
+            // Insert into the story table
+            String sql = "INSERT INTO story (title, description, owner, estimate, scenario_id) VALUES (?, ?, ?, ?, ?)";
+
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, title);
+                pstmt.setString(2, description);
+                pstmt.setString(3, owner);
+                pstmt.setInt(4, estimate);
+                pstmt.setInt(5, scenarioId);
+
+                int affectedRows = pstmt.executeUpdate();
+                return affectedRows > 0 ? CreateStoryStatus.SUCCESS : CreateStoryStatus.DATABASE_ERROR;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return CreateStoryStatus.UNKNOWN_ERROR;
+        }
+    }
+
+    private boolean isScenarioExist(int scenarioId) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("SELECT 1 FROM scenario WHERE id = ?")) {
+            ps.setInt(1, scenarioId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
         }
     }
 
