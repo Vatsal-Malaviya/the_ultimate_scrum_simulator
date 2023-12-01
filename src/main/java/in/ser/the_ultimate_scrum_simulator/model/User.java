@@ -5,7 +5,7 @@ import java.util.Objects;
 public final class User {
     private final int id;
     private final String token;
-    private final String name;
+    private static String name;
 
     private static int accessGroup;
 
@@ -16,7 +16,7 @@ public final class User {
             int accessGroup) {
         this.id = id;
         this.token = token;
-        this.name = name;
+        User.name = name;
         User.accessGroup = accessGroup;
     }
 
@@ -28,7 +28,7 @@ public final class User {
         return token;
     }
 
-    public String name() {
+    public static String name() {
         return name;
     }
 
