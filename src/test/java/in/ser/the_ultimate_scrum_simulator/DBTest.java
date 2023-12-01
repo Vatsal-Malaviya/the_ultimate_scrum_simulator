@@ -7,7 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.sql.SQLException;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
@@ -79,7 +79,7 @@ class DBTest {
     }
 
     @Test
-    public void testLogin() {
+    public void testLogin() throws SQLException {
         // Get the private method using reflection
         Method method = null;
         try {
