@@ -126,16 +126,17 @@ public class DbWrapper {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            ps.close();
+            if (ps != null) {
+                ps.close();
+            }
         }
 
         return UserCreateStatus.UNKNOWN_ERROR;
     }
 
     public UserDeleteStatus deleteUser(String username) {
-        System.out.println(username);
         try {
-            if (username.isBlank()) {
+            if (username == null || username.isBlank()) {
                 return UserDeleteStatus.INVALID_USERNAME;
             }
 
@@ -149,13 +150,12 @@ public class DbWrapper {
             if (rowsAffected > 0) {
                 return UserDeleteStatus.SUCCESS;
             } else {
-                return UserDeleteStatus.UNKNOWN_ERROR;
+                return UserDeleteStatus.USER_NOT_FOUND;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return UserDeleteStatus.UNKNOWN_ERROR;
         }
-
-        return UserDeleteStatus.UNKNOWN_ERROR;
     }
 
 
