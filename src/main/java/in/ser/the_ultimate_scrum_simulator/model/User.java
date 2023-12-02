@@ -5,16 +5,19 @@ import java.util.Objects;
 public final class User {
     private final int id;
     private final String token;
-    private final String name;
+    private static String name;
+
+    private static int accessGroup;
 
     public User(
             int id,
             String token,
-            String name
-    ) {
+            String name,
+            int accessGroup) {
         this.id = id;
         this.token = token;
-        this.name = name;
+        User.name = name;
+        User.accessGroup = accessGroup;
     }
 
     public int id() {
@@ -25,14 +28,22 @@ public final class User {
         return token;
     }
 
-    public String name() {
+    public static String name() {
         return name;
+    }
+
+    public static int accessGroup(){
+        return accessGroup;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
         var that = (User) obj;
         return this.id == that.id &&
                Objects.equals(this.token, that.token) &&

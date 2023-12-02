@@ -18,7 +18,7 @@ public class HomePage extends MyPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
-        addTitleToContainer(this);
+        addTitleToContainer(this,"The Ultimate Scrum Simulator");
         addButtonToContainer(this, "LOGIN", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -28,25 +28,8 @@ public class HomePage extends MyPanel {
                 parentFrame.repaint();
             }
         });
-        addButtonToContainer(this, "REGISTER", new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                parentFrame.getContentPane().removeAll();
-                parentFrame.add(new AddUser(parentFrame), BorderLayout.CENTER);
-                parentFrame.revalidate();
-                parentFrame.repaint();
-            }
-        });
+      
         addButtonToContainer(this, "EXIT", e -> System.exit(0));
-    }
-
-    private void addTitleToContainer(JPanel container) {
-        JLabel title = new JLabel("The Ultimate Scrum Simulator");
-        title.setForeground(Color.BLACK);
-        title.setFont(new Font("Space Mono", Font.PLAIN, 75));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        container.add(title);
-        container.add(Box.createRigidArea(new Dimension(0, 30)));
     }
 
     private void addButtonToContainer(JPanel container, String buttonText) {

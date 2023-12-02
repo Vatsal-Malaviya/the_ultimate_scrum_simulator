@@ -48,3 +48,14 @@ mvn clean package
 ```shell
 java -jar target/the_ultimate_scrum_simulator-0.0.1-SNAPSHOT.jar
 ```
+
+## Login Credentials 🔐
+
+To login as different roles, use the following credentials. The format is username - password.
+
+
+- admin - password12345
+- observer - password12345
+- moderator - password12345
+- gamemaster - password12345
+- student - password12345

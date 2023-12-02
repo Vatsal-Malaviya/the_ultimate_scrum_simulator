@@ -1,9 +1,7 @@
 package in.ser.the_ultimate_scrum_simulator.Pages;
 import in.ser.the_ultimate_scrum_simulator.UserInterface.MyPanel;
-import in.ser.the_ultimate_scrum_simulator.UserInterface.RoundedButton;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import javax.swing.border.*;
 public class InstructionManual extends MyPanel {
 
@@ -36,13 +34,13 @@ public class InstructionManual extends MyPanel {
         String role="observer";
         String text="";
 
-        if(role.equals("student")){
+        if("student".equals(role)){
             text="As a Student, the user will have the ability to play the scrum simulation game by replicating the role of a Scrum Master, Product Owner or Developer. " +
                     "Based on the persona that is selected by the user, they will be presented with different scenarios and according to their role they have to provide the solution to clear the scenario." +
                     "The purpose of this game is to make the student comfortable and familiar with the scrum process.";
         }
 
-        if(role.equals("gamemaster")){
+        if("gamemaster".equals(role)){
             text="As a Game Master, the user is responsible for creating scenarios and challenges for different scrum roles (Scrum Master, Product Owner, Developer)." +
                     "The challenges that are created by the Game Master will then be displayed to the students where the students can simulate through" +
                     "the different scenarios and gain an understanding of the scrum process. The Game Master also has the ability to edit and make changes " +
@@ -50,7 +48,7 @@ public class InstructionManual extends MyPanel {
                     "approves the scenario, only then will it be visible in-game to the students.";
         }
 
-        if(role.equals("observer")){
+        if("observer".equals(role)){
             text="As an observer, the user has the ability to monitor and observe the gameplay of students that are playing the scrum simulator, The observer also has " +
                     "the ability to provide comments and hints to a student who is having trouble understanding a scenario.";
         }
@@ -63,17 +61,5 @@ public class InstructionManual extends MyPanel {
         description.setEditable(false);
         description.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.BLACK, 2), new EmptyBorder(25, 50, 180, 50)));
         container.add(description);
-    }
-
-    private void addRoundedButtonToContainer(JPanel container, String buttonText, ActionListener listener, int align, int gap) {
-        RoundedButton button = new RoundedButton(buttonText);
-        JPanel buttonPanel = new JPanel(new FlowLayout(align));
-        buttonPanel.setBackground(Color.WHITE);
-        buttonPanel.add(button);
-        container.add(Box.createRigidArea(new Dimension(0, gap)));
-        if (listener != null) {
-            button.addActionListener(listener);
-        }
-        container.add(buttonPanel);
     }
 }

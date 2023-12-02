@@ -5,49 +5,33 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import in.ser.the_ultimate_scrum_simulator.model.User;
 
-
-
-public class MainMenu extends MyPanel {
+public class AdminMainMenu extends MyPanel {
 
     private JFrame parentFrame;
 
-    public MainMenu(JFrame frame) {
+    public AdminMainMenu(JFrame frame) {
         this.parentFrame = frame;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(BorderFactory.createEmptyBorder(20, 20, 100, 20));
 
-        addTitleToContainer(this,"MAIN-MENU");
-        addButtonToContainer(this, "START",e->{
-            if(User.accessGroup()==4){
-                parentFrame.getContentPane().removeAll();
-                parentFrame.add(new StudentSelectRole(parentFrame), BorderLayout.CENTER);
-                parentFrame.revalidate();
-                parentFrame.repaint();
-            }
-
-            if(User.accessGroup()==3){
-                parentFrame.getContentPane().removeAll();
-                parentFrame.add(new GameMasterMainMenu(parentFrame), BorderLayout.CENTER);
-                parentFrame.revalidate();
-                parentFrame.repaint();
-            }
-
-        });
-        addButtonToContainer(this, "HOW TO PLAY?",e->{
+        addTitleToContainer(this,"ADMIN MAIN MENU");
+        addButtonToContainer(this, "REGISTER USER", e -> {
             parentFrame.getContentPane().removeAll();
-            parentFrame.add(new InstructionManual(parentFrame), BorderLayout.CENTER);
+            parentFrame.add(new AddUser(parentFrame), BorderLayout.CENTER);
             parentFrame.revalidate();
             parentFrame.repaint();
         });
-        addButtonToContainer(this, "EXIT",e -> System.exit(0));
+        addButtonToContainer(this, "DELETE USER", e -> {
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new DeleteUser(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
+        });
+        addButtonToContainer(this, "EXIT", e -> System.exit(0));
     }
 
-//    private void addButtonToContainer(JPanel container, String buttonText) {
-//        addButtonToContainer(container, buttonText, null);
-//    }
 
     private void addButtonToContainer(JPanel container, String buttonText, ActionListener listener) {
         JButton button = new JButton(buttonText);
@@ -65,3 +49,4 @@ public class MainMenu extends MyPanel {
         container.add(button);
     }
 }
+
