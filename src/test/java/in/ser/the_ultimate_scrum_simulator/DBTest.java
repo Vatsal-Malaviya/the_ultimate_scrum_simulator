@@ -168,4 +168,41 @@ class DBTest {
         // Assert the result
         Assertions.assertEquals(CreateStoryStatus.SUCCESS, result);
     }
+
+    @Test
+    void testGetScenarioIds() throws SQLException {
+        // Prepopulate the database with known scenario data
+        db.validateAndCreateScenario("Test Scenario 1", "Creator 1", 1);
+        db.validateAndCreateScenario("Test Scenario 2", "Creator 2", 2);
+
+        // Call the getScenarioIds method
+        List<Integer> scenarioIds = db.getScenarioIds();
+
+        // Verify that the retrieved list is not null and contains the expected number of entries
+        Assertions.assertNotNull(scenarioIds, "Scenario IDs list should not be null");
+        Assertions.assertTrue(scenarioIds.size() >= 2, "There should be at least two scenarios in the database");
+
+        // Cleanup - delete the test scenarios
+        // (Assuming a method exists to delete scenarios by ID, replace with actual method if different)
+        for (int id : scenarioIds) {
+            db.deleteScenarioById(id);
+        }
+    }
+
+    @Test
+    void testDeleteScenarioById() throws SQLException {
+        // Add a test scenario
+        db.validateAndCreateScenario("Test Scenario", "Test Creator", 1);
+        // Retrieve the ID of the newly added scenario
+        int scenarioId = db.getScenarioIds().get(0);
+
+        // Test Case 1: Successfully delete the scenario
+        Assertions.assertEquals(ScenarioDeleteStatus.SUCCESS, db.deleteScenarioById(scenarioId));
+
+        // Test Case 2: Attempt to delete a scenario that does not exist
+        Assertions.assertEquals(ScenarioDeleteStatus.SCENARIO_NOT_FOUND, db.deleteScenarioById(scenarioId));
+
+        // Test Case 3: Attempt to delete with an invalid scenario ID
+        Assertions.assertEquals(ScenarioDeleteStatus.INVALID_SCENARIO_ID, db.deleteScenarioById(-1));
+    }
 }
