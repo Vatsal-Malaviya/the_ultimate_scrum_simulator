@@ -262,4 +262,41 @@ public class DbWrapper {
         }
     }
 
+    public List<Integer> getScenarioIds() throws SQLException {
+        List<Integer> scenarioIds = new ArrayList<>();
+        String sql = "SELECT id FROM scenario";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                scenarioIds.add(rs.getInt("id"));
+            }
+        }
+        return scenarioIds;
+    }
+
+    public ScenarioDeleteStatus deleteScenarioById(int scenarioId) {
+        try {
+            if (scenarioId <= 0) {
+                return ScenarioDeleteStatus.INVALID_SCENARIO_ID;
+            }
+
+            String sql = "DELETE FROM scenario WHERE id = ?";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, scenarioId);
+
+                int rowsAffected = ps.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    return ScenarioDeleteStatus.SUCCESS;
+                } else {
+                    return ScenarioDeleteStatus.SCENARIO_NOT_FOUND;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return ScenarioDeleteStatus.UNKNOWN_ERROR;
+        }
+    }
+
+
 }

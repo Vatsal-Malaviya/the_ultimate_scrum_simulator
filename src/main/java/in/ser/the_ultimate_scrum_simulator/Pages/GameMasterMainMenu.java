@@ -25,7 +25,11 @@ public class GameMasterMainMenu extends MyPanel {
             parentFrame.revalidate();
             parentFrame.repaint();
         });
-        addButtonToContainer(this, "VIEW/EDIT SCENARIOS",e->{
+        addButtonToContainer(this, "UPDATE SCENARIO",e->{
+            parentFrame.getContentPane().removeAll();
+            parentFrame.add(new CreateStory(parentFrame), BorderLayout.CENTER);
+            parentFrame.revalidate();
+            parentFrame.repaint();
         });
         addButtonToContainer(this, "EXIT",e -> System.exit(0));
 
