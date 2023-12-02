@@ -262,4 +262,17 @@ public class DbWrapper {
         }
     }
 
+    public List<Integer> getScenarioIds() throws SQLException {
+        List<Integer> scenarioIds = new ArrayList<>();
+        String sql = "SELECT id FROM scenario";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                scenarioIds.add(rs.getInt("id"));
+            }
+        }
+        return scenarioIds;
+    }
+
+
 }

@@ -63,7 +63,7 @@ public class CreateScenario extends MyPanel {
         Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 2); // Change color and thickness as needed
         scenarioPanel.setBorder(lineBorder);
 
-        addRoundedButtonToContainer(scenarioPanel, "next", e -> {
+        addRoundedButtonToContainer(scenarioPanel, "submit", e -> {
             DbWrapper db = new DbWrapper();
             CreateScenarioStatus css= db.validateAndCreateScenario(titleField.getText(),createdBy.getText(),difficultyComboBox.getSelectedIndex());
             if(css.equals(CreateScenarioStatus.SUCCESS)){
