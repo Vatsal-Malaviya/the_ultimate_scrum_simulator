@@ -10,7 +10,10 @@ import java.awt.event.MouseEvent;
 
 public class StoryBoard extends JPanel {
     private JFrame parentFrame;
-    private JPanel backlogPanel, todoPanel, inProgressPanel, completedPanel;
+    private JPanel backlogPanel;
+    private JPanel todoPanel;
+    private JPanel inProgressPanel;
+    private JPanel completedPanel;
     private JPanel selectedTask = null;
     private String role;
 
@@ -52,7 +55,7 @@ public class StoryBoard extends JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createTitledBorder(title));
 
-        if (title.equals("BACKLOG") && dimension != null) {
+        if ("BACKLOG".equals(title) && dimension != null) {
             JPanel taskBox = createTaskBox();
             panel.add(taskBox);
         }
@@ -71,7 +74,7 @@ public class StoryBoard extends JPanel {
         taskBox.setMaximumSize(taskBoxDimension);
         taskBox.setMinimumSize(taskBoxDimension);
 
-        taskBox.setAlignmentY(Component.TOP_ALIGNMENT);
+        taskBox.setAlignmentY(TOP_ALIGNMENT);
         taskBox.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
