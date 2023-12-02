@@ -17,8 +17,6 @@ import java.sql.SQLException;
 public class LoginPage extends MyPanel {
 
     private static final int MAX_LOGIN_ATTEMPTS = 3;
-    private static final Connection c = null;
-    private static final PreparedStatement ps = null;
     private static int consecutiveLoginAttempts = 0;
     private final JFrame parentFrame;
 

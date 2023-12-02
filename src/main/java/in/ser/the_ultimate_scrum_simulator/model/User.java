@@ -38,8 +38,12 @@ public final class User {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
         var that = (User) obj;
         return this.id == that.id &&
                Objects.equals(this.token, that.token) &&
