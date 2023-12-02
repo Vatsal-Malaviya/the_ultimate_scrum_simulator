@@ -45,9 +45,9 @@ public class MainMenu extends MyPanel {
         addButtonToContainer(this, "EXIT",e -> System.exit(0));
     }
 
-    private void addButtonToContainer(JPanel container, String buttonText) {
-        addButtonToContainer(container, buttonText, null);
-    }
+//    private void addButtonToContainer(JPanel container, String buttonText) {
+//        addButtonToContainer(container, buttonText, null);
+//    }
 
     private void addButtonToContainer(JPanel container, String buttonText, ActionListener listener) {
         JButton button = new JButton(buttonText);
