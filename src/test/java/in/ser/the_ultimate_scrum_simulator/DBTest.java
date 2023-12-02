@@ -151,19 +151,16 @@ class DBTest {
     }
 
     @Test
-    public void testCreateStory() {
-        // Assuming you have an instance of DbWrapper, replace with actual instance if needed
-        DbWrapper dbWrapper = new DbWrapper();
-
+    public void testCreateStory() throws SQLException {
         // Test data
         String title = "Test Story";
         String description = "This is a test story";
         String owner = "Test Owner";
         int estimate = 5;
-        int scenarioId = 1; // Replace with an existing scenario ID
+        int scenarioId = db.getScenarioIds().get(0);; // Replace with an existing scenario ID
 
         // Call the method and get the result
-        CreateStoryStatus result = dbWrapper.createStory(title, description, owner, estimate, scenarioId);
+        CreateStoryStatus result = db.createStory(title, description, owner, estimate, scenarioId);
 
         // Assert the result
         Assertions.assertEquals(CreateStoryStatus.SUCCESS, result);
@@ -181,12 +178,6 @@ class DBTest {
         // Verify that the retrieved list is not null and contains the expected number of entries
         Assertions.assertNotNull(scenarioIds, "Scenario IDs list should not be null");
         Assertions.assertTrue(scenarioIds.size() >= 2, "There should be at least two scenarios in the database");
-
-        // Cleanup - delete the test scenarios
-        // (Assuming a method exists to delete scenarios by ID, replace with actual method if different)
-        for (int id : scenarioIds) {
-            db.deleteScenarioById(id);
-        }
     }
 
     @Test
