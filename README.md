@@ -1,4 +1,5 @@
 # Scrum Simulator 🚀
+![DALL·E 2024-08-19 14 24 50 - A video game poster for the Scrum Simulator project  The Admin, depicted as a king with a crown 👑, is at the center, radiating authority and control](https://github.com/user-attachments/assets/0ab5d850-6626-4688-a679-67ca23c121e1)
 
 ## Project Objective 🎯
 
